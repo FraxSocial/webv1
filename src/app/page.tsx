@@ -1,53 +1,74 @@
 'use client'
 
 import Link from 'next/link'
-import Navbar from '../components/layout/Navbar'
+import Image from 'next/image'
 import BackgroundEffects from '../components/ui/BackgroundEffects'
 import StatsCard from '../components/ui/StatsCard'
 import FeatureCard from '../components/ui/FeatureCard'
 
 const stats = [
-  { label: 'Community Members', value: '50K+' },
   { label: 'Total Value Locked', value: '$2.5B' },
-  { label: 'Active Delegates', value: '150+' },
-  { label: '24/7 Support', value: 'Available' }
+  { label: 'Active Delegates', value: '150+' }
 ]
 
 const features = [
   {
-    title: 'Protocol Governance',
-    description: 'Shape the future of Frax through active participation in governance'
+    title: 'Become a Delegate',
+    description: 'Shape protocol decisions and earn rewards for your contribution'
   },
   {
-    title: 'Community Leadership',
-    description: 'Guide and represent the community in key decisions'
+    title: 'Connect & Collaborate',
+    description: 'Join a vibrant community of DeFi leaders and innovators'
   },
   {
-    title: 'Delegation Rewards',
-    description: 'Earn rewards for your contribution to the ecosystem'
+    title: 'Stay Informed',
+    description: 'Get real-time updates on governance proposals and community activities'
   }
 ]
 
 export default function Home() {
   return (
     <>
-      <Navbar />
       <BackgroundEffects />
 
-      <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-24 relative overflow-hidden pt-32">
-        <div className="z-10 w-full max-w-6xl items-center justify-between text-sm lg:flex flex-col gap-8">
+      <main className="flex min-h-screen flex-col items-center justify-start p-4 md:p-12 relative overflow-hidden">
+        <div className="z-10 w-full max-w-5xl mx-auto pt-12">
           {/* Hero Section */}
-          <div className="text-center space-y-6">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-              <span className="gradient-text">Shape the Future of DeFi</span>
+          <div className="text-center space-y-6 mb-16">
+            <div className="mb-12">
+              <Image
+                src="/frax-logo.png"
+                alt="Frax Social"
+                width={120}
+                height={120}
+                className="mx-auto"
+              />
+            </div>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight">
+              <span className="gradient-text">Shape the Future</span>
+              <br />
+              <span className="gradient-text">of DeFi</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mt-6 font-light">
-              Join an exclusive network of delegates guiding the evolution of Frax Finance
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto font-light">
+              Join the next generation of Frax delegates
             </p>
+
+            {/* Primary CTA */}
+            <div className="pt-8">
+              <Link 
+                href="/delegate"
+                className="inline-block w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-highlight-blue to-highlight-purple
+                         text-white font-medium rounded-xl text-lg
+                         hover:opacity-90 transition-all duration-300 hover:scale-[1.02] 
+                         shadow-lg hover:shadow-xl"
+              >
+                Apply to Become a Delegate
+              </Link>
+            </div>
           </div>
 
           {/* Stats Section */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 w-full">
+          <div className="grid grid-cols-2 gap-6 mb-16">
             {stats.map((stat, i) => (
               <StatsCard 
                 key={i}
@@ -58,34 +79,32 @@ export default function Home() {
             ))}
           </div>
 
-          {/* CTA Section */}
-          <div className="mt-12 text-center space-y-8">
-            <p className="text-lg text-gray-600 dark:text-gray-400 font-light">
-              Ready to make an impact on the future of decentralized finance?
-            </p>
-            
-            <Link 
-              href="/delegate"
-              className="inline-block px-8 py-4 bg-gradient-to-r from-highlight-blue to-highlight-purple
-                       text-white font-medium rounded-xl
-                       hover:opacity-90 transition-all duration-500 hover:scale-[1.02] 
-                       shadow-lg shadow-highlight-blue/5 hover:shadow-highlight-blue/10
-                       dark:shadow-highlight-blue/10 dark:hover:shadow-highlight-blue/20"
-            >
-              Become a Delegate
-            </Link>
-          </div>
-
-          {/* Feature Cards */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+          {/* Features Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {features.map((feature, i) => (
               <FeatureCard 
                 key={i}
                 title={feature.title}
                 description={feature.description}
-                delay={i * 0.3}
+                delay={i * 0.2}
               />
             ))}
+          </div>
+
+          {/* Footer CTA */}
+          <div className="text-center mt-20 space-y-4">
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Not ready to delegate?
+            </p>
+            <Link 
+              href="/community"
+              className="inline-block w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm
+                       text-gray-800 dark:text-white font-medium rounded-xl text-lg
+                       hover:bg-white/20 transition-all duration-300
+                       border border-gray-200/20 dark:border-gray-700/20"
+            >
+              Join Our Community
+            </Link>
           </div>
         </div>
       </main>
