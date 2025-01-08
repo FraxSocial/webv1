@@ -2,36 +2,19 @@
 
 import { useEffect } from 'react'
 
-export default function BackgroundEffects() {
-  useEffect(() => {
-    const createParticles = () => {
-      const particles = document.querySelector('.particles')
-      if (!particles) return
-
-      particles.innerHTML = ''
-
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div')
-        particle.className = 'particle'
-        particle.style.width = Math.random() * 4 + 2 + 'px'
-        particle.style.height = particle.style.width
-        particle.style.left = Math.random() * 100 + 'vw'
-        particle.style.top = Math.random() * 100 + 'vh'
-        particle.style.animationDelay = Math.random() * 15 + 's'
-        particles.appendChild(particle)
-      }
-    }
-
-    createParticles()
-    window.addEventListener('resize', createParticles)
-    return () => window.removeEventListener('resize', createParticles)
-  }, [])
-
+const BackgroundEffects = () => {
   return (
     <>
-      <div className="cyber-grid" />
-      <div className="particles" />
-      <div className="mesh-gradient" />
+      {/* Animated gradient orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-[40%] -left-[20%] w-[80%] h-[80%] bg-gradient-radial from-[#ffffff03] to-transparent rounded-full animate-float" style={{ animationDelay: '0s' }} />
+        <div className="absolute -bottom-[40%] -right-[20%] w-[80%] h-[80%] bg-gradient-radial from-[#ffffff03] to-transparent rounded-full animate-float" style={{ animationDelay: '-2s' }} />
+      </div>
+      
+      {/* Grid overlay */}
+      <div className="fixed inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)] pointer-events-none" />
     </>
   )
 }
+
+export default BackgroundEffects

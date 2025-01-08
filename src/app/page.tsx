@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import BackgroundEffects from '../components/ui/BackgroundEffects'
+import MatrixBackground from '../components/ui/MatrixBackground'
 import StatsCard from '../components/ui/StatsCard'
 import FeatureCard from '../components/ui/FeatureCard'
 
@@ -32,10 +33,13 @@ const features = [
 export default function Home() {
   return (
     <>
+      <MatrixBackground />
       <BackgroundEffects />
-
-      <main className="flex min-h-screen flex-col items-center justify-start p-4 md:p-12 relative overflow-hidden">
-        <div className="z-10 w-full max-w-6xl mx-auto pt-12">
+      
+      <main className="relative min-h-screen">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           {/* Hero Section */}
           <div className="text-center space-y-8 mb-20">
             <div className="mb-12 relative">

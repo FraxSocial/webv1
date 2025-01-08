@@ -5,21 +5,11 @@
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-rgb: 0, 0, 0;
-  --accent-gradient: linear-gradient(45deg, #1a1a1a, #2a2a2a);
-  --grid-size: 40px;
-  --grid-blur: 1px;
-  --grid-color: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --card-bg: rgba(10, 10, 10, 0.5);
 }
 
 @layer base {
   body {
-    @apply bg-black text-white transition-colors duration-300;
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(40, 40, 40, 0.15), transparent 60%),
-      radial-gradient(circle at 0% 100%, rgba(30, 30, 30, 0.1), transparent 60%);
-    background-attachment: fixed;
+    @apply bg-black text-white;
   }
 }
 
@@ -27,24 +17,6 @@
 .gradient-text {
   @apply text-white;
   text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-}
-
-/* Cyberpunk Grid Background */
-.cyber-grid {
-  @apply fixed inset-0 overflow-hidden pointer-events-none opacity-20;
-  perspective: 500px;
-  transform-style: preserve-3d;
-  animation: rotateGrid 20s linear infinite;
-}
-
-.cyber-grid::before {
-  content: '';
-  @apply absolute inset-0;
-  background: 
-    linear-gradient(90deg, transparent 0%, var(--grid-color) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size),
-    linear-gradient(transparent 0%, var(--grid-color) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size);
-  transform: rotateX(60deg);
-  animation: moveGrid 20s linear infinite;
 }
 
 /* Glass Card Effects */
@@ -74,54 +46,31 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Stats Card */
-.stats-card {
-  @apply glass-card p-6 relative overflow-hidden;
-}
-
-.stats-card::before {
-  content: '';
-  @apply absolute inset-0 opacity-0 transition-opacity duration-500;
-  background: linear-gradient(45deg, 
-    rgba(255, 255, 255, 0.03),
-    rgba(255, 255, 255, 0.05)
-  );
-}
-
-.stats-card:hover::before {
-  @apply opacity-100;
-}
-
-/* Feature Card */
-.feature-card {
-  @apply glass-card p-8 relative overflow-hidden;
-}
-
-.feature-card::after {
-  content: '';
-  @apply absolute inset-0 opacity-0 transition-opacity duration-500;
-  background: linear-gradient(45deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0.03)
-  );
-}
-
-.feature-card:hover::after {
-  @apply opacity-100;
-}
-
 /* Animations */
 @keyframes float {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
   }
 }
 
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  animation: float 20s ease-in-out infinite;
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
 }
 
 /* Navigation */
