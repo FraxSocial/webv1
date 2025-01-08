@@ -13,7 +13,7 @@
 }
 
 .dark {
-  --foreground-rgb: 248, 250, 252;
+  --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 12, 14, 18;
   --background-end-rgb: 20, 23, 34;
   --accent-gradient: linear-gradient(45deg, #2E6BF7, #22D3EE);
@@ -24,6 +24,13 @@
   body {
     @apply transition-colors duration-300;
   }
+}
+
+/* Text Effects */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-highlight-blue to-highlight-purple;
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
 }
 
 /* Cyberpunk Grid Background */
@@ -67,6 +74,15 @@
 }
 
 /* Animations */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 @keyframes rotateGrid {
   0% {
     transform: perspective(1000px) rotateX(60deg) translateZ(0);
@@ -113,16 +129,68 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Cursor Blink Animation */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Animation Delays */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* Utility Classes */
-.gradient-text {
-  @apply bg-clip-text text-transparent;
-  background-image: var(--accent-gradient);
+.text-balance {
+  text-wrap: balance;
 }
 
 .glass-card {
-  @apply bg-white/5 dark:bg-frax-secondary/30 backdrop-blur-md 
-         border border-gray-200/10 dark:border-frax-accent/40 rounded-xl
-         hover:border-gray-200/20 dark:hover:border-frax-accent/60
+  @apply bg-white/5 dark:bg-gray-800/5 backdrop-blur-md 
+         border border-gray-200/10 dark:border-gray-700/20 rounded-xl
+         hover:border-gray-200/20 dark:hover:border-gray-700/40
+         hover:bg-white/10 dark:hover:bg-gray-800/10
          transition-all duration-500;
 }
 
@@ -131,7 +199,37 @@
          transition-colors duration-300;
 }
 
-.nav-glass {
-  @apply bg-white/70 dark:bg-frax-secondary/70 backdrop-blur-md
-         border-b border-gray-200/20 dark:border-frax-accent/20;
+.navbar {
+  @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md
+         border-b border-gray-200/20 dark:border-gray-700/20;
+}
+
+/* Card Hover Effects */
+.hover-card {
+  @apply relative overflow-hidden;
+}
+
+.hover-card::after {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300
+         bg-gradient-to-r from-highlight-blue/10 to-highlight-purple/10;
+}
+
+.hover-card:hover::after {
+  @apply opacity-100;
+}
+
+/* Button Effects */
+.btn-glow {
+  @apply relative;
+}
+
+.btn-glow::before {
+  content: '';
+  @apply absolute inset-0 -z-10 opacity-0 transition-opacity duration-300
+         bg-gradient-to-r from-highlight-blue to-highlight-purple blur-xl;
+}
+
+.btn-glow:hover::before {
+  @apply opacity-30;
 }
