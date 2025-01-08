@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 12, 14, 18;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 255, 255, 255;
+  --accent-gradient: linear-gradient(45deg, #2E6BF7, #6366F1);
+  --grid-size: 40px;
+  --grid-blur: 1px;
+  --grid-color: rgba(46, 107, 247, 0.2);
+}
+
+.dark {
+  --foreground-rgb: 248, 250, 252;
+  --background-start-rgb: 12, 14, 18;
+  --background-end-rgb: 20, 23, 34;
+  --accent-gradient: linear-gradient(45deg, #2E6BF7, #22D3EE);
+  --grid-color: rgba(34, 211, 238, 0.15);
+}
+
+@layer base {
+  body {
+    @apply transition-colors duration-300;
+  }
+}
+
+/* Cyberpunk Grid Background */
+.cyber-grid {
+  @apply fixed inset-0 overflow-hidden pointer-events-none;
+  perspective: 500px;
+  transform-style: preserve-3d;
+  animation: rotateGrid 20s linear infinite;
+}
+
+.cyber-grid::before {
+  content: '';
+  @apply absolute inset-0;
+  background: 
+    linear-gradient(90deg, transparent 0%, var(--grid-color) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size),
+    linear-gradient(transparent 0%, var(--grid-color) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size);
+  transform: rotateX(60deg);
+  animation: moveGrid 20s linear infinite;
+}
+
+/* Floating Particles */
+.particles {
+  @apply fixed inset-0 overflow-hidden pointer-events-none;
+}
+
+.particle {
+  @apply absolute rounded-full;
+  background: var(--accent-gradient);
+  filter: blur(4px);
+  animation: float-particle 15s infinite;
+}
+
+/* Dynamic Mesh */
+.mesh-gradient {
+  @apply fixed inset-0 opacity-30 dark:opacity-20 pointer-events-none;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(46, 107, 247, 0.15), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(34, 211, 238, 0.1), transparent 40%);
+  filter: blur(40px);
+  animation: mesh-pulse 8s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes rotateGrid {
+  0% {
+    transform: perspective(1000px) rotateX(60deg) translateZ(0);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(60deg) translateZ(var(--grid-size));
+  }
+}
+
+@keyframes moveGrid {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(var(--grid-size));
+  }
+}
+
+@keyframes float-particle {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(100px, -100px);
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 1;
+  }
+}
+
+@keyframes mesh-pulse {
+  0%, 100% {
+    opacity: 0.2;
+    filter: blur(40px) hue-rotate(0deg);
+  }
+  50% {
+    opacity: 0.3;
+    filter: blur(60px) hue-rotate(90deg);
+  }
+}
+
+/* Utility Classes */
+.gradient-text {
+  @apply bg-clip-text text-transparent;
+  background-image: var(--accent-gradient);
+}
+
+.glass-card {
+  @apply bg-white/5 dark:bg-frax-secondary/30 backdrop-blur-md 
+         border border-gray-200/10 dark:border-frax-accent/40 rounded-xl
+         hover:border-gray-200/20 dark:hover:border-frax-accent/60
+         transition-all duration-500;
+}
+
+.nav-link {
+  @apply text-gray-600 dark:text-gray-300 hover:text-highlight-blue dark:hover:text-highlight-cyan
+         transition-colors duration-300;
+}
+
+.nav-glass {
+  @apply bg-white/70 dark:bg-frax-secondary/70 backdrop-blur-md
+         border-b border-gray-200/20 dark:border-frax-accent/20;
+}
