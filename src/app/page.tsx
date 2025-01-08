@@ -41,19 +41,19 @@ export default function Home() {
             <div className="mb-12 relative">
               <div className="mx-auto animate-float flex flex-col items-center">
                 <div className="relative font-mono">
-                  <span className="text-5xl font-bold tracking-tighter bg-gradient-to-r from-highlight-blue via-highlight-purple to-highlight-cyan text-transparent bg-clip-text">
-                    frax<span className="text-highlight-cyan">.</span>social
+                  <span className="text-5xl font-bold tracking-tighter text-white">
+                    frax<span className="text-white">.</span>social
                   </span>
-                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-highlight-cyan animate-blink"></div>
-                  <div className="absolute -bottom-2 left-1/2 w-16 h-[1px] bg-gradient-to-r from-transparent via-highlight-blue to-transparent"></div>
+                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-white animate-blink"></div>
+                  <div className="absolute -bottom-2 left-1/2 w-16 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"></div>
                 </div>
-                <div className="mt-3 flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                <div className="mt-3 flex items-center space-x-2 text-sm text-gray-300">
                   <span className="inline-block w-3 h-[1px] bg-current"></span>
                   <span className="font-mono tracking-wider">CONNECT • ENGAGE • GOVERN</span>
                   <span className="inline-block w-3 h-[1px] bg-current"></span>
                 </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-highlight-blue/20 to-highlight-purple/20 blur-3xl -z-10" />
+              <div className="absolute inset-0 bg-[#ffffff05] blur-3xl -z-10" />
             </div>
             <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight">
               <span className="gradient-text">Connect with</span>
