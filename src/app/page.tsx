@@ -7,25 +7,25 @@ import FeatureCard from '../components/ui/FeatureCard'
 
 const stats = [
   { label: 'Total Value Locked', value: '$2.5B' },
-  { label: 'Active Delegates', value: '150+' },
-  { label: 'Community Members', value: '50K+' }
+  { label: 'Active Members', value: '50K+' },
+  { label: 'Connected Wallets', value: '150K+' }
 ]
 
 const features = [
   {
-    title: 'Become a Delegate',
-    description: 'Shape protocol decisions and earn rewards for your contribution',
-    icon: '🏛️'
+    title: 'Connect Your Wallet',
+    description: 'Link your wallet to join the Frax ecosystem and connect with other members',
+    icon: '🔗'
   },
   {
-    title: 'Connect & Collaborate',
-    description: 'Join a vibrant community of DeFi leaders and innovators',
+    title: 'Engage & Network',
+    description: 'Connect with Frax members, delegates, and follow their on-chain activity',
     icon: '🤝'
   },
   {
-    title: 'Stay Informed',
-    description: 'Get real-time updates on governance proposals and community activities',
-    icon: '📊'
+    title: 'Shape the Future',
+    description: 'Participate in governance and help guide the future of Frax',
+    icon: '🏛️'
   }
 ]
 
@@ -49,43 +49,43 @@ export default function Home() {
                 </div>
                 <div className="mt-3 flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
                   <span className="inline-block w-3 h-[1px] bg-current"></span>
-                  <span className="font-mono tracking-wider">DEFI GOVERNANCE</span>
+                  <span className="font-mono tracking-wider">CONNECT • ENGAGE • GOVERN</span>
                   <span className="inline-block w-3 h-[1px] bg-current"></span>
                 </div>
               </div>
               <div className="absolute inset-0 bg-gradient-to-r from-highlight-blue/20 to-highlight-purple/20 blur-3xl -z-10" />
             </div>
             <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight">
-              <span className="gradient-text">Shape the Future</span>
+              <span className="gradient-text">Connect with</span>
               <br />
-              <span className="gradient-text">of DeFi</span>
+              <span className="gradient-text">the Frax Community</span>
             </h1>
             <p className="text-xl sm:text-2xl md:text-3xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto font-light">
-              Join the next generation of Frax delegates
+              Your gateway to the Frax ecosystem
             </p>
 
             {/* Primary CTA */}
             <div className="pt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Link 
-                href="/delegate"
+                href="/connect"
                 className="group relative inline-flex items-center justify-center px-8 py-4 w-full sm:w-auto
                          bg-gradient-to-r from-highlight-blue to-highlight-purple
                          text-white font-medium rounded-xl text-lg
                          hover:opacity-90 transition-all duration-300 hover:scale-[1.02] 
                          shadow-lg hover:shadow-xl overflow-hidden"
               >
-                <span className="relative z-10">Apply to Become a Delegate</span>
+                <span className="relative z-10">Connect Your Wallet</span>
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-highlight-purple to-highlight-blue opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </Link>
               <Link 
-                href="/learn"
+                href="/explore"
                 className="group relative inline-flex items-center justify-center px-8 py-4 w-full sm:w-auto
                          border border-gray-200/20 dark:border-gray-700/20
                          text-gray-700 dark:text-gray-300 font-medium rounded-xl text-lg
                          hover:border-gray-200/40 dark:hover:border-gray-700/40
                          transition-all duration-300 backdrop-blur-sm"
               >
-                Learn More
+                Explore Community
               </Link>
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function Home() {
                 Join Our Growing Community
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-                Connect with other members, stay updated, and be part of the Frax ecosystem
+                Connect with Frax members, track wallets, and participate in governance
               </p>
               <Link 
                 href="/community"
@@ -134,7 +134,7 @@ export default function Home() {
                          hover:border-gray-200/40 dark:hover:border-gray-700/40
                          transition-all duration-300"
               >
-                Join Community
+                Start Exploring
               </Link>
             </div>
           </div>
