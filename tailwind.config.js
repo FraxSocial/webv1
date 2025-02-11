@@ -33,19 +33,52 @@ module.exports = {
         'noise': 'url("/noise.png")',
       },
       animation: {
-        'float': 'float 6s ease-in-out infinite',
-        'glow': 'glow 2s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'slide-up': 'slide-up 0.5s ease-out',
+        'slide-down': 'slide-down 0.5s ease-out',
+        'fade-in': 'fade-in 0.5s ease-out',
+        'scale': 'scale 0.3s ease-out',
+        'float': 'float 20s ease-in-out infinite',
+        'spin-slow': 'spin 60s linear infinite',
+        'spin-slower': 'spin 90s linear infinite',
+        'pulse-slow': 'pulse 4s ease-in-out infinite',
+        'carousel-slide': 'slide-left 20s linear infinite',
       },
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' }
+        'ticker': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
         },
-        glow: {
-          '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.6 }
+        'slide-up': {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' }
+        },
+        'slide-down': {
+          '0%': { transform: 'translateY(-10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' }
+        },
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' }
+        },
+        'scale': {
+          '0%': { transform: 'scale(0.95)' },
+          '100%': { transform: 'scale(1)' }
+        },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0) translateX(0)' },
+          '25%': { transform: 'translateY(-20px) translateX(20px)' },
+          '50%': { transform: 'translateY(0) translateX(40px)' },
+          '75%': { transform: 'translateY(20px) translateX(20px)' }
+        },
+        'pulse-slow': {
+          '0%, 100%': { opacity: 0.4 },
+          '50%': { opacity: 0.8 }
         }
+      },
+      boxShadow: {
+        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'subtle-lg': '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
+        'accent': '0 0 0 2px rgba(42, 133, 255, 0.1)',
       },
       boxShadow: {
         'glow': '0 4px 20px rgba(0, 246, 255, 0.2)',
