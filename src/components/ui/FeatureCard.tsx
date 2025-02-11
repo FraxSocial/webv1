@@ -3,25 +3,30 @@
 interface FeatureCardProps {
   title: string
   description: string
-  delay?: number
+  icon: string
 }
 
-export default function FeatureCard({ title, description, delay = 0 }: FeatureCardProps) {
+export default function FeatureCard({ title, description, icon }: FeatureCardProps) {
   return (
-    <div 
-      className="glass-card p-8 sm:p-10 rounded-xl group transform hover:scale-[1.02] transition-all duration-300
-                 bg-gradient-to-br from-white/5 to-white/10 dark:from-gray-900/5 dark:to-gray-900/10"
-      style={{ 
-        animationDelay: `${delay}s`,
-        animation: 'float 6s ease-in-out infinite'
-      }}
-    >
-      <h3 className="text-xl sm:text-2xl font-semibold mb-4 gradient-text group-hover:opacity-90">
-        {title}
-      </h3>
-      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 font-light leading-relaxed">
-        {description}
-      </p>
+    <div className="group relative rounded-lg border border-border-subtle bg-bg-card p-6
+                    transition-all duration-300 hover:border-border-strong hover:bg-bg-hover">
+      <div className="space-y-4">
+        {/* Icon */}
+        <div className="inline-flex h-10 w-10 items-center justify-center rounded-md
+                      bg-bg-hover text-xl text-accent-primary">
+          {icon}
+        </div>
+
+        {/* Content */}
+        <div className="space-y-2">
+          <h3 className="text-lg font-medium text-text-primary">
+            {title}
+          </h3>
+          <p className="text-sm leading-relaxed text-text-secondary">
+            {description}
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

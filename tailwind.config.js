@@ -9,28 +9,48 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'frax': {
-          primary: '#000000',
-          secondary: '#0a0a0a',
-          accent: '#1a1a1a',
+        bg: {
+          dark: '#0A0A0B',        // Main background
+          darker: '#050506',      // Darker sections
+          card: '#111113',        // Card background
+          hover: '#16161A'        // Hover state
         },
-        'highlight': {
-          white: '#ffffff',
-          gray: '#808080',
-          accent: '#404040',
+        accent: {
+          primary: '#2A85FF',     // Main accent - subtle blue
+          muted: '#1A5AAD'        // Muted accent
         },
-        'surface': {
-          light: '#F8FAFC',
-          dark: '#0F1117',
+        text: {
+          primary: '#FFFFFF',     // Primary text
+          secondary: '#A1A1AA',   // Secondary text
+          tertiary: '#71717A'     // Muted text
+        },
+        border: {
+          subtle: 'rgba(255, 255, 255, 0.1)',
+          strong: 'rgba(255, 255, 255, 0.15)'
         }
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'noise': 'url("/noise.png")',
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'glow': 'glow 2s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' }
+        },
+        glow: {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.6 }
+        }
       },
       boxShadow: {
-        'glow': '0 4px 16px rgba(0, 0, 0, 0.1)',
-        'glow-lg': '0 8px 32px rgba(0, 0, 0, 0.2)',
+        'glow': '0 4px 20px rgba(0, 246, 255, 0.2)',
+        'glow-lg': '0 8px 32px rgba(0, 246, 255, 0.3)',
+        'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
       },
     },
   },
