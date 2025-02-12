@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import NotificationsPanel from './NotificationsPanel'
@@ -24,6 +24,16 @@ export default function NavMenu() {
   const { isConnected } = useAccount()
   const [unreadMessages, setUnreadMessages] = useState(2) // Example unread count
   const [showMessages, setShowMessages] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Only show the menu after mounting to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div>

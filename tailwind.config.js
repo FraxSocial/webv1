@@ -8,6 +8,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        'arial': ['Arial', 'sans-serif'],
+      },
       colors: {
         bg: {
           dark: '#0A0A0B',        // Dark mode - Main background
