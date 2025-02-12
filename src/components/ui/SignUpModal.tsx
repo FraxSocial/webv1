@@ -31,7 +31,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
       }
 
       // Resolve the name to an address
-      const resolvedAddress = await resolveFNSName(name, provider)
+      const resolvedAddress = await resolveFNSName(name, publicClient)
       if (!resolvedAddress) {
         setFnsError('FNS name not found')
         return false
