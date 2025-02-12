@@ -9,7 +9,7 @@ const WalletConnectButton = dynamic(
 )
 
 const navItems = [
-  { label: 'Dashboard', href: '/app' },
+  { label: 'Home', href: '/home' },
   { label: 'Governance', href: '/governance' },
   { label: 'Analytics', href: '/analytics' },
   { label: 'Docs', href: '/docs' }

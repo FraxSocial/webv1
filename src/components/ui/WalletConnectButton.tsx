@@ -49,13 +49,14 @@ export default function WalletConnectButton() {
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false)
 
-  // Show sign up modal when wallet is connected
+  // Show sign up modal when wallet is connected and no profile exists
   useEffect(() => {
     if (isConnected) {
       setIsWalletModalOpen(false)
-      // TODO: Check if user exists in database
-      // For now, always show sign up modal when connecting
-      setIsSignUpModalOpen(true)
+      const hasProfile = localStorage.getItem('userProfile')
+      if (!hasProfile && window.location.pathname === '/') {
+        setIsSignUpModalOpen(true)
+      }
     }
   }, [isConnected])
 

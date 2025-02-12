@@ -2,7 +2,8 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useAccount, usePublicClient } from 'wagmi'
+import { useAccount, usePublicClient, useConnect } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 import { validateFNSName, resolveFNSName } from '@/utils/fns'
 
 interface SignUpModalProps {
@@ -11,12 +12,25 @@ interface SignUpModalProps {
 }
 
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
-  const { address } = useAccount()
+  const { address, isConnected } = useAccount()
+  const { connect } = useConnect({
+    connector: new InjectedConnector()
+  })
   const publicClient = usePublicClient()
   const [fnsName, setFnsName] = useState('')
   const [isValidatingFNS, setIsValidatingFNS] = useState(false)
   const [fnsError, setFnsError] = useState('')
   const [bio, setBio] = useState('')
+
+  // Close modal if profile exists
+  useEffect(() => {
+    if (isOpen) {
+      const hasProfile = localStorage.getItem('userProfile')
+      if (hasProfile) {
+        onClose()
+      }
+    }
+  }, [isOpen, onClose])
 
   const validateFNS = async (name: string) => {
     setIsValidatingFNS(true)
@@ -26,23 +40,12 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
       // Basic format validation
       const isValid = await validateFNSName(name)
       if (!isValid) {
-        setFnsError('Invalid FNS name format')
+        setFnsError('Invalid FNS name format. Use 3-32 characters, alphanumeric and hyphens only.')
         return false
       }
 
-      // Resolve the name to an address
-      const resolvedAddress = await resolveFNSName(name, publicClient)
-      if (!resolvedAddress) {
-        setFnsError('FNS name not found')
-        return false
-      }
-
-      // Check if the resolved address matches the connected wallet
-      if (resolvedAddress.toLowerCase() !== address?.toLowerCase()) {
-        setFnsError('FNS name does not match connected wallet')
-        return false
-      }
-
+      // For development, we'll consider all valid format names as available
+      // In production, this would check the FNS contract for name availability
       return true
     } catch (error) {
       console.error('Error validating FNS:', error)
@@ -59,9 +62,26 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
     const isValidFNS = await validateFNS(fnsName)
     if (!isValidFNS) return
 
-    // TODO: Implement sign up logic
-    console.log('Sign up with:', { address, fnsName, bio })
-    onClose()
+    try {
+      // For development, we'll just simulate profile creation
+      const profile = {
+        address,
+        fnsName: fnsName + '.frax',
+        bio,
+        joinedDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+      }
+      
+      // Store profile in localStorage for development
+      localStorage.setItem('userProfile', JSON.stringify(profile))
+      console.log('Profile created:', profile)
+
+      // Close modal and redirect to home page
+      onClose()
+      window.location.href = '/home'
+    } catch (error) {
+      console.error('Error creating profile:', error)
+      setFnsError('Error creating profile. Please try again.')
+    }
   }
 
   return (
@@ -95,10 +115,23 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                 >
-                  Create Your Profile
+                  {!isConnected ? 'Connect Wallet' : 'Create Your Profile'}
                 </Dialog.Title>
 
-                <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+                {!isConnected ? (
+                  <div className="mt-4 space-y-4">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Connect your wallet to get started with frax.social
+                    </p>
+                    <button
+                      onClick={() => connect()}
+                      className="w-full rounded-md border border-transparent bg-accent-primary px-4 py-2 text-sm font-medium text-white hover:bg-accent-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2"
+                    >
+                      Connect Wallet
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                   <div>
                     <label htmlFor="wallet" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Wallet Address
@@ -186,6 +219,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                     </button>
                   </div>
                 </form>
+                )}
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -1,10 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import FeatureCard from '../components/ui/FeatureCard'
-import StatsTicker from '../components/ui/StatsTicker'
-import SparklineChart from '../components/ui/SparklineChart'
-import NavMenu from '../components/ui/NavMenu'
+import { useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
+import { useRouter } from 'next/navigation'
+import FeatureCard from '@/components/ui/FeatureCard'
+import StatsTicker from '@/components/ui/StatsTicker'
+import SparklineChart from '@/components/ui/SparklineChart'
+import NavMenu from '@/components/ui/NavMenu'
+import SignUpModal from '@/components/ui/SignUpModal'
 
 const features = [
   {
@@ -46,6 +50,28 @@ const metrics = [
 ]
 
 export default function Home() {
+  const { isConnected } = useAccount()
+  const router = useRouter()
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false)
+
+  // Check if user has a profile
+  useEffect(() => {
+    if (isConnected) {
+      const hasProfile = localStorage.getItem('userProfile')
+      if (hasProfile) {
+        router.push('/home')
+      } else {
+        setIsSignUpOpen(true)
+      }
+    }
+  }, [isConnected, router])
+
+  // Reset modal state when disconnected
+  useEffect(() => {
+    if (!isConnected) {
+      setIsSignUpOpen(false)
+    }
+  }, [isConnected])
   return (
     <main className="relative min-h-screen overflow-hidden bg-bg-dark">
       <NavMenu />
@@ -140,8 +166,8 @@ export default function Home() {
             {/* CTAs */}
             <div className="mt-16 flex animate-fade-in flex-col items-center justify-center gap-4 
                           sm:flex-row [animation-delay:400ms]">
-              <Link
-                href="/app"
+              <button
+                onClick={() => setIsSignUpOpen(true)}
                 className="group relative overflow-hidden rounded-lg bg-accent-primary px-8 
                          py-3 text-sm font-medium text-text-primary transition-all duration-300 
                          hover:bg-accent-muted hover:shadow-accent"
@@ -166,7 +192,7 @@ export default function Home() {
                               bg-[length:250%_250%] bg-[0%_0%] opacity-0 transition-all 
                               duration-500 group-hover:animate-[shine_1s_ease_forwards] 
                               group-hover:opacity-100" />
-              </Link>
+              </button>
               
               <Link
                 href="/docs"
@@ -217,6 +243,12 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Sign Up Modal */}
+      <SignUpModal
+        isOpen={isSignUpOpen}
+        onClose={() => setIsSignUpOpen(false)}
+      />
     </main>
   )
 }
