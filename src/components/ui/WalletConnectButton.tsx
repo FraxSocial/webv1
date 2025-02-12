@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 import WalletModal from './WalletModal'
+import SignUpModal from './SignUpModal'
 
 const ConnectButtonContent = (
   <>
@@ -45,32 +46,52 @@ const DisconnectButtonContent = (address: string) => (
 export default function WalletConnectButton() {
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false)
+
+  // Show sign up modal when wallet is connected
+  useEffect(() => {
+    if (isConnected) {
+      setIsWalletModalOpen(false)
+      // TODO: Check if user exists in database
+      // For now, always show sign up modal when connecting
+      setIsSignUpModalOpen(true)
+    }
+  }, [isConnected])
 
   if (isConnected && address) {
     return (
-      <button
-        onClick={() => disconnect()}
-        className="flex items-center space-x-2 rounded-full bg-accent-muted px-4 py-2 
-                 text-sm font-medium text-text-primary transition-all duration-300 
-                 hover:bg-accent-primary"
-      >
-        {DisconnectButtonContent(address)}
-      </button>
+      <>
+        <button
+          onClick={() => disconnect()}
+          className="flex items-center space-x-2 rounded-full bg-accent-muted px-4 py-2 
+                   text-sm font-medium text-text-primary transition-all duration-300 
+                   hover:bg-accent-primary"
+        >
+          {DisconnectButtonContent(address)}
+        </button>
+        <SignUpModal
+          isOpen={isSignUpModalOpen}
+          onClose={() => setIsSignUpModalOpen(false)}
+        />
+      </>
     )
   }
 
   return (
     <>
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsWalletModalOpen(true)}
         className="flex items-center space-x-2 rounded-full bg-accent-primary px-4 py-2 
                  text-sm font-medium text-text-primary transition-all duration-300 
                  hover:bg-accent-muted"
       >
         {ConnectButtonContent}
       </button>
-      <WalletModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <WalletModal
+        isOpen={isWalletModalOpen}
+        onClose={() => setIsWalletModalOpen(false)}
+      />
     </>
   )
 }
