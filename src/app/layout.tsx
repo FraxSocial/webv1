@@ -1,11 +1,6 @@
-'use client'
-
 import { Inter } from 'next/font/google'
 import './globals.css'
-import ThemeToggle from '../components/ThemeToggle'
-import { useEffect } from 'react'
-import { WagmiConfig } from 'wagmi'
-import { config } from '../config/wagmi'
+import ClientLayout from './client-layout'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -18,22 +13,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  useEffect(() => {
-    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [])
-
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={`${inter.className} antialiased dark:bg-gray-900 bg-gray-50 bg-surface-light dark:bg-frax-primary min-h-screen transition-colors duration-300`}>
-        <WagmiConfig config={config}>
-          <ThemeToggle />
-          {children}
-        </WagmiConfig>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <ClientLayout className={inter.variable}>{children}</ClientLayout>
       </body>
     </html>
   )
