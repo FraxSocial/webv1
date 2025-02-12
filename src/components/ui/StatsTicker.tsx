@@ -16,12 +16,14 @@ const liveStats: Stat[] = [
 
 export default function StatsTicker() {
   return (
-    <div className="relative overflow-hidden border-b border-border-subtle bg-bg-darker py-2">
+    <div className="relative overflow-hidden py-2
+         border-b border-border-subtle-light dark:border-border-subtle
+         bg-bg-hover-light dark:bg-bg-darker">
       {/* Edge fade effects */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 
-                    bg-gradient-to-r from-bg-darker via-bg-darker to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 
-                    bg-gradient-to-l from-bg-darker via-bg-darker to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24
+                    bg-gradient-to-r from-bg-hover-light via-bg-hover-light dark:from-bg-darker dark:via-bg-darker to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24
+                    bg-gradient-to-l from-bg-hover-light via-bg-hover-light dark:from-bg-darker dark:via-bg-darker to-transparent" />
 
       {/* Scrolling content */}
       <div className="animate-[ticker_30s_linear_infinite] flex items-center whitespace-nowrap">
@@ -31,8 +33,8 @@ export default function StatsTicker() {
             key={i}
             className="mx-8 flex items-center space-x-2 text-sm"
           >
-            <span className="font-medium text-text-secondary">{stat.label}</span>
-            <span className="text-text-primary">{stat.value}</span>
+            <span className="font-medium text-text-secondary-light dark:text-text-secondary">{stat.label}</span>
+            <span className="text-text-primary-light dark:text-text-primary">{stat.value}</span>
             <span className="text-accent-primary">
               {stat.change}
             </span>

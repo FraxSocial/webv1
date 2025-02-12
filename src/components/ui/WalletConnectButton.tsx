@@ -65,8 +65,10 @@ export default function WalletConnectButton() {
       <>
         <button
           onClick={() => disconnect()}
-          className="flex items-center space-x-2 rounded-full bg-accent-muted px-4 py-2 
-                   text-sm font-medium text-text-primary transition-all duration-300 
+          className="flex items-center space-x-2 rounded-full px-4 py-2
+                   text-sm font-medium transition-all duration-300
+                   bg-accent-muted-light dark:bg-accent-muted
+                   text-text-primary-light dark:text-text-primary
                    hover:bg-accent-primary"
         >
           {DisconnectButtonContent(address)}
@@ -83,9 +85,10 @@ export default function WalletConnectButton() {
     <>
       <button
         onClick={() => setIsWalletModalOpen(true)}
-        className="flex items-center space-x-2 rounded-full bg-accent-primary px-4 py-2 
-                 text-sm font-medium text-text-primary transition-all duration-300 
-                 hover:bg-accent-muted"
+        className="flex items-center space-x-2 rounded-full px-4 py-2
+                 text-sm font-medium transition-all duration-300
+                 bg-accent-primary text-white
+                 hover:bg-accent-muted-light dark:hover:bg-accent-muted"
       >
         {ConnectButtonContent}
       </button>

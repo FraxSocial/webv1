@@ -34,21 +34,21 @@ export default function SparklineChart({
           y1="25"
           x2="100"
           y2="25"
-          className="stroke-border-subtle stroke-[0.5]"
+          className="stroke-border-subtle-light dark:stroke-border-subtle stroke-[0.5]"
         />
         <line
           x1="0"
           y1="50"
           x2="100"
           y2="50"
-          className="stroke-border-subtle stroke-[0.5]"
+          className="stroke-border-subtle-light dark:stroke-border-subtle stroke-[0.5]"
         />
         <line
           x1="0"
           y1="75"
           x2="100"
           y2="75"
-          className="stroke-border-subtle stroke-[0.5]"
+          className="stroke-border-subtle-light dark:stroke-border-subtle stroke-[0.5]"
         />
 
         {/* Chart line */}

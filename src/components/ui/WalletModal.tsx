@@ -57,10 +57,13 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-bg-dark p-6 text-left align-middle shadow-xl transition-all border border-border-subtle">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all
+                               bg-bg-card-light dark:bg-bg-dark
+                               border border-border-subtle-light dark:border-border-subtle">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-text-primary mb-4"
+                  className="text-lg font-medium leading-6 mb-4
+                             text-text-primary-light dark:text-text-primary"
                 >
                   Connect Wallet
                 </Dialog.Title>
@@ -73,19 +76,23 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
                         onClose()
                       }}
                       disabled={!connector.ready || isLoading}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-lg 
-                               bg-bg-card hover:bg-accent-primary/5 border border-border-subtle 
-                               transition-colors duration-200"
+                      className="w-full flex items-center justify-between px-4 py-3 rounded-lg
+                               transition-colors duration-200
+                               bg-bg-card-light dark:bg-bg-card
+                               hover:bg-bg-hover-light dark:hover:bg-accent-primary/5
+                               border border-border-subtle-light dark:border-border-subtle"
                     >
                       <div className="flex items-center space-x-3">
                         {walletIcons[connector.name as keyof typeof walletIcons]}
-                        <span className="text-text-primary font-medium">
+                        <span className="font-medium
+                                     text-text-primary-light dark:text-text-primary">
                           {connector.name}
                           {isLoading && connector.id === pendingConnector?.id && ' (connecting)'}
                         </span>
                       </div>
                       {!connector.ready && (
-                        <span className="text-text-secondary text-sm">
+                        <span className="text-sm
+                                     text-text-secondary-light dark:text-text-secondary">
                           Not installed
                         </span>
                       )}

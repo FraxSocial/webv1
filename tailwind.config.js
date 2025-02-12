@@ -10,23 +10,33 @@ module.exports = {
     extend: {
       colors: {
         bg: {
-          dark: '#0A0A0B',        // Main background
-          darker: '#050506',      // Darker sections
-          card: '#111113',        // Card background
-          hover: '#16161A'        // Hover state
+          dark: '#0A0A0B',        // Dark mode - Main background
+          darker: '#050506',      // Dark mode - Darker sections
+          card: '#111113',        // Dark mode - Card background
+          hover: '#16161A',       // Dark mode - Hover state
+          light: '#FFFFFF',       // Light mode - Main background
+          lighter: '#F9FAFB',     // Light mode - Lighter sections
+          'card-light': '#FFFFFF',// Light mode - Card background
+          'hover-light': '#F3F4F6'// Light mode - Hover state
         },
         accent: {
           primary: '#2A85FF',     // Main accent - subtle blue
-          muted: '#1A5AAD'        // Muted accent
+          muted: '#1A5AAD',       // Dark mode - Muted accent
+          'muted-light': '#60A5FA'// Light mode - Muted accent
         },
         text: {
-          primary: '#FFFFFF',     // Primary text
-          secondary: '#A1A1AA',   // Secondary text
-          tertiary: '#71717A'     // Muted text
+          primary: '#FFFFFF',     // Dark mode - Primary text
+          secondary: '#A1A1AA',   // Dark mode - Secondary text
+          tertiary: '#71717A',    // Dark mode - Muted text
+          'primary-light': '#111827',   // Light mode - Primary text
+          'secondary-light': '#4B5563', // Light mode - Secondary text
+          'tertiary-light': '#6B7280'   // Light mode - Muted text
         },
         border: {
-          subtle: 'rgba(255, 255, 255, 0.1)',
-          strong: 'rgba(255, 255, 255, 0.15)'
+          subtle: 'rgba(255, 255, 255, 0.1)',      // Dark mode
+          strong: 'rgba(255, 255, 255, 0.15)',      // Dark mode
+          'subtle-light': 'rgba(0, 0, 0, 0.1)',     // Light mode
+          'strong-light': 'rgba(0, 0, 0, 0.15)'     // Light mode
         }
       },
       backgroundImage: {

@@ -103,35 +103,37 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-bg-dark">
+      <div className="min-h-screen w-full bg-bg-lighter dark:bg-bg-dark">
         <NavMenu />
         <StatsTicker />
-        <div className="flex h-[80vh] items-center justify-center">
+        <main className="flex h-[80vh] items-center justify-center">
           <div className="text-center">
             <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-accent-primary border-t-transparent mx-auto"></div>
-            <p className="text-text-secondary">Loading profile...</p>
+            <p className="text-text-secondary-light dark:text-text-secondary">Loading profile...</p>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     )
   }
 
   if (!profile) return null
 
   return (
-    <main className="min-h-screen bg-bg-dark">
+    <div className="min-h-screen w-full bg-bg-lighter dark:bg-bg-dark">
       <NavMenu />
       <StatsTicker />
 
-      <div className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pt-24 pb-12 sm:px-6 lg:px-8">
         {/* Profile Header */}
-        <div className="mb-8 rounded-lg border border-border-subtle bg-bg-card p-8">
+        <div className="mb-8 rounded-lg p-8
+                     border border-border-subtle-light dark:border-border-subtle
+                     bg-bg-card-light dark:bg-bg-card">
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-6">
               <div className="h-24 w-24 rounded-full bg-accent-primary/20" />
               <div>
-                <h1 className="text-3xl font-bold text-text-primary">{profile.fnsName}</h1>
-                <p className="mt-2 text-text-secondary">{profile.bio}</p>
+                <h1 className="text-3xl font-bold text-text-primary-light dark:text-text-primary">{profile.fnsName}</h1>
+                <p className="mt-2 text-text-secondary-light dark:text-text-secondary">{profile.bio}</p>
                 <div className="mt-4 flex space-x-4">
                   {Object.entries(profile.socialLinks).map(([platform, url]) => (
                     <a
@@ -179,17 +181,20 @@ export default function ProfilePage() {
           {/* Main Content - 2 columns */}
           <div className="space-y-8 lg:col-span-2">
             {/* Token Balances */}
-            <div className="rounded-lg border border-border-subtle bg-bg-card p-6">
-              <h2 className="text-xl font-semibold text-text-primary">Token Balances</h2>
+            <div className="rounded-lg p-6
+                         border border-border-subtle-light dark:border-border-subtle
+                         bg-bg-card-light dark:bg-bg-card">
+              <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary">Token Balances</h2>
               <div className="mt-4 space-y-4">
                 {mockBalances.map((balance) => (
-                  <div key={balance.symbol} className="flex items-center justify-between border-b border-border-subtle pb-4 last:border-0 last:pb-0">
+                  <div key={balance.symbol} className="flex items-center justify-between pb-4 last:border-0 last:pb-0
+                                   border-b border-border-subtle-light dark:border-border-subtle">
                     <div>
-                      <div className="font-medium text-text-primary">{balance.token}</div>
-                      <div className="text-sm text-text-tertiary">{balance.balance} {balance.symbol}</div>
+                      <div className="font-medium text-text-primary-light dark:text-text-primary">{balance.token}</div>
+                      <div className="text-sm text-text-tertiary-light dark:text-text-tertiary">{balance.balance} {balance.symbol}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-text-primary">{balance.value}</div>
+                      <div className="text-text-primary-light dark:text-text-primary">{balance.value}</div>
                       <div className={`text-sm ${balance.change24h.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
                         {balance.change24h}
                       </div>
@@ -200,11 +205,14 @@ export default function ProfilePage() {
             </div>
 
             {/* Recent Transactions */}
-            <div className="rounded-lg border border-border-subtle bg-bg-card p-6">
-              <h2 className="text-xl font-semibold text-text-primary">Recent Transactions</h2>
+            <div className="rounded-lg p-6
+                         border border-border-subtle-light dark:border-border-subtle
+                         bg-bg-card-light dark:bg-bg-card">
+              <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary">Recent Transactions</h2>
               <div className="mt-4 space-y-4">
                 {mockTransactions.map((tx, i) => (
-                  <div key={i} className="flex items-center justify-between border-b border-border-subtle pb-4 last:border-0 last:pb-0">
+                  <div key={i} className="flex items-center justify-between pb-4 last:border-0 last:pb-0
+                                   border-b border-border-subtle-light dark:border-border-subtle">
                     <div className="flex items-center space-x-3">
                       <div className="h-8 w-8 rounded-full bg-accent-primary/20 flex items-center justify-center">
                         {tx.type === 'send' && '↗️'}
@@ -215,14 +223,14 @@ export default function ProfilePage() {
                         {tx.type === 'delegate' && '👥'}
                       </div>
                       <div>
-                        <div className="font-medium text-text-primary">
+                        <div className="font-medium text-text-primary-light dark:text-text-primary">
                           {tx.type.charAt(0).toUpperCase() + tx.type.slice(1)} {tx.token}
                         </div>
-                        <div className="text-sm text-text-tertiary">{tx.amount} {tx.token}</div>
+                        <div className="text-sm text-text-tertiary-light dark:text-text-tertiary">{tx.amount} {tx.token}</div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-text-tertiary">{tx.timestamp}</div>
+                      <div className="text-sm text-text-tertiary-light dark:text-text-tertiary">{tx.timestamp}</div>
                       <a
                         href={`https://etherscan.io/tx/${tx.hash}`}
                         target="_blank"
@@ -241,9 +249,11 @@ export default function ProfilePage() {
           {/* Right Sidebar - 1 column */}
           <div className="space-y-8">
             {/* Friends List */}
-            <div className="rounded-lg border border-border-subtle bg-bg-card p-6">
+            <div className="rounded-lg p-6
+                         border border-border-subtle-light dark:border-border-subtle
+                         bg-bg-card-light dark:bg-bg-card">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-text-primary">Friends</h2>
+                <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary">Friends</h2>
                 <Link href="/friends" className="text-sm text-accent-primary hover:underline">
                   View All
                 </Link>
@@ -259,10 +269,10 @@ export default function ProfilePage() {
                         )}
                       </div>
                       <div>
-                        <Link href={`/profile/${friend.fnsName}`} className="font-medium text-text-primary hover:text-accent-primary">
+                        <Link href={`/profile/${friend.fnsName}`} className="font-medium text-text-primary-light dark:text-text-primary hover:text-accent-primary">
                           {friend.fnsName}
                         </Link>
-                        <div className="text-sm text-text-tertiary">Last active {friend.lastActive}</div>
+                        <div className="text-sm text-text-tertiary-light dark:text-text-tertiary">Last active {friend.lastActive}</div>
                       </div>
                     </div>
                   </div>
@@ -271,16 +281,18 @@ export default function ProfilePage() {
             </div>
 
             {/* Achievements */}
-            <div className="rounded-lg border border-border-subtle bg-bg-card p-6">
-              <h2 className="text-xl font-semibold text-text-primary">Achievements</h2>
+            <div className="rounded-lg p-6
+                         border border-border-subtle-light dark:border-border-subtle
+                         bg-bg-card-light dark:bg-bg-card">
+              <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary">Achievements</h2>
               <div className="mt-4 grid grid-cols-3 gap-4">
                 <div className="flex flex-col items-center">
                   <div className="h-12 w-12 rounded-full bg-accent-primary/20 flex items-center justify-center text-lg">
                     🗳️
                   </div>
                   <div className="mt-2 text-center">
-                    <div className="text-sm font-medium text-text-primary">Voter</div>
-                    <div className="text-xs text-text-tertiary">10+ votes</div>
+                    <div className="text-sm font-medium text-text-primary-light dark:text-text-primary">Voter</div>
+                    <div className="text-xs text-text-tertiary-light dark:text-text-tertiary">10+ votes</div>
                   </div>
                 </div>
                 <div className="flex flex-col items-center">
@@ -288,8 +300,8 @@ export default function ProfilePage() {
                     💎
                   </div>
                   <div className="mt-2 text-center">
-                    <div className="text-sm font-medium text-text-primary">HODLer</div>
-                    <div className="text-xs text-text-tertiary">1yr+ stake</div>
+                    <div className="text-sm font-medium text-text-primary-light dark:text-text-primary">HODLer</div>
+                    <div className="text-xs text-text-tertiary-light dark:text-text-tertiary">1yr+ stake</div>
                   </div>
                 </div>
                 <div className="flex flex-col items-center">
@@ -305,7 +317,7 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   )
 }
