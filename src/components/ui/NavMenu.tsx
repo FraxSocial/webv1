@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useAccount, useDisconnect } from 'wagmi'
 import { useState } from 'react'
 import WalletModal from './WalletModal'
-import { usePathname } from 'next/navigation'
+
 
 const navItems = [
   { label: 'Dashboard', href: '/app' },
@@ -17,7 +17,7 @@ function ConnectButton() {
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const pathname = usePathname()
+
 
   const ConnectButtonContent = (
     <>

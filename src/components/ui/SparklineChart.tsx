@@ -2,13 +2,12 @@
 
 interface SparklineChartProps {
   data: number[]
-  height?: number
   positive?: boolean
 }
 
 export default function SparklineChart({ 
   data, 
-  height = 32,
+
   positive = true 
 }: SparklineChartProps) {
   const max = Math.max(...data)
