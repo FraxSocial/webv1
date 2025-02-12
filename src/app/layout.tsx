@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import ThemeToggle from '../components/ThemeToggle'
 import { useEffect } from 'react'
+import { WagmiConfig } from 'wagmi'
+import { config } from '../config/wagmi'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -28,8 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className={`${inter.className} antialiased dark:bg-gray-900 bg-gray-50 bg-surface-light dark:bg-frax-primary min-h-screen transition-colors duration-300`}>
-        <ThemeToggle />
-        {children}
+        <WagmiConfig config={config}>
+          <ThemeToggle />
+          {children}
+        </WagmiConfig>
       </body>
     </html>
   )

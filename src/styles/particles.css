@@ -1,0 +1,38 @@
+/* Predefined positions for particles */
+.particle-1 { --top: 5%; --left: 10%; --delay: -2s; --duration: 15s; }
+.particle-2 { --top: 15%; --left: 20%; --delay: -4s; --duration: 18s; }
+.particle-3 { --top: 25%; --left: 80%; --delay: -6s; --duration: 20s; }
+.particle-4 { --top: 35%; --left: 40%; --delay: -8s; --duration: 16s; }
+.particle-5 { --top: 45%; --left: 60%; --delay: -10s; --duration: 19s; }
+.particle-6 { --top: 55%; --left: 30%; --delay: -12s; --duration: 17s; }
+.particle-7 { --top: 65%; --left: 70%; --delay: -14s; --duration: 21s; }
+.particle-8 { --top: 75%; --left: 50%; --delay: -16s; --duration: 14s; }
+.particle-9 { --top: 85%; --left: 90%; --delay: -18s; --duration: 22s; }
+.particle-10 { --top: 95%; --left: 15%; --delay: -20s; --duration: 16s; }
+.particle-11 { --top: 10%; --left: 85%; --delay: -3s; --duration: 18s; }
+.particle-12 { --top: 20%; --left: 35%; --delay: -5s; --duration: 20s; }
+.particle-13 { --top: 30%; --left: 75%; --delay: -7s; --duration: 15s; }
+.particle-14 { --top: 40%; --left: 25%; --delay: -9s; --duration: 17s; }
+.particle-15 { --top: 50%; --left: 95%; --delay: -11s; --duration: 19s; }
+.particle-16 { --top: 60%; --left: 45%; --delay: -13s; --duration: 16s; }
+.particle-17 { --top: 70%; --left: 65%; --delay: -15s; --duration: 21s; }
+.particle-18 { --top: 80%; --left: 5%; --delay: -17s; --duration: 18s; }
+.particle-19 { --top: 90%; --left: 55%; --delay: -19s; --duration: 20s; }
+.particle-20 { --top: 15%; --left: 80%; --delay: -21s; --duration: 17s; }
+
+.particle {
+  position: absolute;
+  height: 4px;
+  width: 4px;
+  border-radius: 9999px;
+  background-color: rgba(42, 133, 255, 0.1);
+  top: var(--top);
+  left: var(--left);
+  animation: float var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes float {
+  from { transform: translate(0, 0); }
+  to { transform: translate(0, 100vh); }
+}

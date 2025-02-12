@@ -77,13 +77,7 @@ export default function Home() {
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute h-1 w-1 rounded-full bg-accent-primary/10"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animation: `float ${10 + Math.random() * 20}s linear infinite`,
-                animationDelay: `-${Math.random() * 20}s`,
-              }}
+              className={`particle particle-${i + 1}`}
             />
           ))}
         </div>
