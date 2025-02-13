@@ -3,18 +3,24 @@
 import { useEffect, useState } from 'react'
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import { useAccount } from 'wagmi'
+import { usePathname } from 'next/navigation'
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
   const [isDark, setIsDark] = useState(false)
   const { isConnected } = useAccount()
+  const pathname = usePathname()
 
-  // Only run after component is mounted on client
+  // Handle mounting
   useEffect(() => {
     setMounted(true)
-    
-    // Check if we're on the landing page
-    const isLandingPage = window.location.pathname === '/'
+  }, [])
+
+  // Handle theme updates
+  useEffect(() => {
+    if (!mounted) return
+
+    const isLandingPage = pathname === '/'
 
     // If on landing page, always use dark theme
     if (isLandingPage) {
@@ -23,16 +29,14 @@ export default function ThemeToggle() {
       return
     }
 
-    // For all other pages, default to light theme
-    const updateTheme = () => {
+    // For connected users on other pages, use saved theme or default
+    if (isConnected) {
       const savedTheme = window.localStorage.getItem('theme')
-      const isDark = savedTheme === 'dark'
-      document.documentElement.classList.toggle('dark', isDark)
-      setIsDark(isDark)
+      const shouldBeDark = savedTheme === 'dark'
+      document.documentElement.classList.toggle('dark', shouldBeDark)
+      setIsDark(shouldBeDark)
     }
-
-    updateTheme()
-  }, [isConnected])
+  }, [mounted, isConnected])
 
   const toggleTheme = () => {
     if (isDark) {
@@ -48,8 +52,8 @@ export default function ThemeToggle() {
   // Don't render anything until mounted on client
   if (!mounted) return null
 
-  // Don't render the toggle on landing page
-  if (typeof window !== 'undefined' && window.location.pathname === '/') return null
+  // Don't render the toggle on landing page or if not connected
+  if (!isConnected || pathname === '/') return null
 
   return (
     <button

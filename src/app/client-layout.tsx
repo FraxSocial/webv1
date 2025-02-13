@@ -11,16 +11,8 @@ type ClientLayoutProps = {
 }
 
 function ThemeManager() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
-
   return (
-    <div className="fixed top-4 right-4 z-50 flex items-center space-x-4">
+    <div className="fixed bottom-6 right-6 z-50">
       <ThemeToggle />
     </div>
   )

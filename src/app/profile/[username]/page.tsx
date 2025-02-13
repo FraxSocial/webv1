@@ -96,8 +96,21 @@ export default function ProfilePage() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // In a real app, we would fetch the profile data from an API
-    setProfile(mockProfile)
+    // Get profile from localStorage
+    const storedProfile = localStorage.getItem('userProfile')
+    if (storedProfile) {
+      const parsedProfile = JSON.parse(storedProfile)
+      // Convert stored profile to UserProfile format
+      setProfile({
+        fnsName: parsedProfile.fnsName,
+        bio: parsedProfile.bio,
+        socialLinks: mockProfile.socialLinks, // Keep mock social links for now
+        stats: mockProfile.stats // Keep mock stats for now
+      })
+    } else {
+      // Fallback to mock profile for development
+      setProfile(mockProfile)
+    }
     setIsLoading(false)
   }, [params.username])
 

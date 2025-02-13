@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useConnect } from 'wagmi'
+import Image from 'next/image'
 
 interface WalletModalProps {
   isOpen: boolean
@@ -9,12 +10,16 @@ interface WalletModalProps {
 
 const walletIcons = {
   'MetaMask': (
-    <svg className="h-6 w-6" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M32.9582 1L19.8241 10.7183L22.2665 4.99099L32.9582 1Z" fill="#E17726" stroke="#E17726" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M2.65479 1L15.6681 10.809L13.3465 4.99098L2.65479 1Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M28.2861 23.7367L24.8059 29.1318L32.4239 31.2024L34.5935 23.8511L28.2861 23.7367Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M1.02783 23.8511L3.18508 31.2024L10.7917 29.1318L7.32293 23.7367L1.02783 23.8511Z" fill="#E27625" stroke="#E27625" strokeWidth="0.25" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+    <div className="relative w-6 h-6 flex items-center justify-center">
+      <svg width="24" height="24" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32.9582 1L19.8241 10.7183L22.2665 4.99099L32.9582 1Z" fill="#F6851B"/>
+        <path d="M2.65479 1L15.6681 10.809L13.3465 4.99098L2.65479 1Z" fill="#F6851B"/>
+        <path d="M28.2861 23.7367L24.8059 29.1318L32.4239 31.2024L34.5935 23.8511L28.2861 23.7367Z" fill="#F6851B"/>
+        <path d="M1.02783 23.8511L3.18508 31.2024L10.7917 29.1318L7.32293 23.7367L1.02783 23.8511Z" fill="#F6851B"/>
+        <path d="M10.4706 14.5149L8.50586 17.7175L15.9285 18.0368L15.6681 10.809L10.4706 14.5149Z" fill="#F6851B"/>
+        <path d="M25.1505 14.5149L19.8241 10.7183L19.6826 18.0368L27.0939 17.7175L25.1505 14.5149Z" fill="#F6851B"/>
+      </svg>
+    </div>
   ),
   'Coinbase Wallet': (
     <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,12 +63,12 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all
-                               bg-bg-card-light dark:bg-bg-dark
-                               border border-border-subtle-light dark:border-border-subtle">
+                               bg-bg-dark
+                               border border-border-subtle">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 mb-4
-                             text-text-primary-light dark:text-text-primary"
+                             text-text-primary"
                 >
                   Connect Wallet
                 </Dialog.Title>
@@ -78,14 +83,13 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
                       disabled={!connector.ready || isLoading}
                       className="w-full flex items-center justify-between px-4 py-3 rounded-lg
                                transition-colors duration-200
-                               bg-bg-card-light dark:bg-bg-card
-                               hover:bg-bg-hover-light dark:hover:bg-accent-primary/5
-                               border border-border-subtle-light dark:border-border-subtle"
+                               bg-[#1c1c1c]
+                               hover:bg-[#2a2a2a]
+                               border border-border-subtle"
                     >
                       <div className="flex items-center space-x-3">
                         {walletIcons[connector.name as keyof typeof walletIcons]}
-                        <span className="font-medium
-                                     text-text-primary-light dark:text-text-primary">
+                        <span className="font-medium text-text-primary">
                           {connector.name}
                           {isLoading && connector.id === pendingConnector?.id && ' (connecting)'}
                         </span>

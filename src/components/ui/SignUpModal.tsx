@@ -5,6 +5,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { useAccount, usePublicClient, useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { validateFNSName, resolveFNSName } from '@/utils/fns'
+import { useRouter } from 'next/navigation'
 
 interface SignUpModalProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface SignUpModalProps {
 }
 
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
+  const router = useRouter()
   const { address, isConnected } = useAccount()
   const { connect } = useConnect({
     connector: new InjectedConnector()
@@ -63,21 +65,33 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
     if (!isValidFNS) return
 
     try {
-      // For development, we'll just simulate profile creation
+      // Create a more complete profile
       const profile = {
         address,
         fnsName: fnsName + '.frax',
         bio,
-        joinedDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        joinedDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+        socialLinks: {
+          twitter: '',
+          discord: '',
+          github: '',
+          telegram: ''
+        },
+        stats: {
+          following: 0,
+          followers: 0,
+          proposals: 0,
+          votes: 0
+        }
       }
       
       // Store profile in localStorage for development
       localStorage.setItem('userProfile', JSON.stringify(profile))
       console.log('Profile created:', profile)
 
-      // Close modal and redirect to home page
+      // Close modal and navigate to user's profile page
       onClose()
-      window.location.href = '/home'
+      router.push(`/profile/${fnsName}`)
     } catch (error) {
       console.error('Error creating profile:', error)
       setFnsError('Error creating profile. Please try again.')
