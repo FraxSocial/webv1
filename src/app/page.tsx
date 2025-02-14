@@ -9,6 +9,7 @@ import StatsTicker from '@/components/ui/StatsTicker'
 import SparklineChart from '@/components/ui/SparklineChart'
 import NavMenu from '@/components/ui/NavMenu'
 import SignUpModal from '@/components/ui/SignUpModal'
+import Footer from '@/components/layout/Footer'
 
 const features = [
   {
@@ -251,6 +252,9 @@ export default function Home() {
         isOpen={isSignUpOpen}
         onClose={() => setIsSignUpOpen(false)}
       />
+
+      {/* Footer */}
+      <Footer />
     </main>
   )
 }
