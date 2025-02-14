@@ -17,6 +17,7 @@ export default function Navbar() {
               <Link href="/delegates" className="nav-link">Delegates</Link>
               <Link href="/governance" className="nav-link">Governance</Link>
               <Link href="/community" className="nav-link">Community</Link>
+              <a href="https://facts.frax.finance" target="_blank" rel="noopener noreferrer" className="nav-link">Facts</a>
               <Link href="/docs" className="nav-link">Docs</Link>
             </div>
           </div>

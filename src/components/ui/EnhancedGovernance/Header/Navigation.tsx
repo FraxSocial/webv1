@@ -29,6 +29,11 @@ export default function Navigation() {
       badge: 3
     },
     {
+      label: 'Facts',
+      href: 'https://facts.frax.finance/',
+      icon: BookOpen
+    },
+    {
       label: 'Learn',
       href: '/learn',
       icon: BookOpen
@@ -47,15 +52,15 @@ export default function Navigation() {
   ]
 
   return (
-    <nav className="bg-bg-card dark:bg-bg-card-dark border-b border-border-subtle dark:border-border-subtle-dark">
+    <div className="bg-bg-card dark:bg-bg-card-dark border-b border-border-subtle dark:border-border-subtle-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Brand */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-full bg-accent-primary flex items-center justify-center text-white font-bold">
-              F
-            </div>
+                F
+              </div>
               <span className="text-lg font-semibold text-text-primary dark:text-text-primary-dark">Frax Social</span>
             </Link>
           </div>
@@ -63,10 +68,13 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             {navItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`relative px-3 py-2 rounded-md text-sm font-medium ${
+              {item.href.startsWith('http') ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`relative px-3 py-2 rounded-md text-sm font-medium ${
                   activeItem === item.label
                     ? 'text-accent-primary dark:text-accent-primary-dark bg-accent-primary/10 dark:bg-accent-primary-dark/10'
                     : 'text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark hover:bg-bg-subtle dark:hover:bg-bg-subtle-dark'
@@ -82,7 +90,29 @@ export default function Navigation() {
                     </span>
                   )}
                 </div>
-              </Link>
+              </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`relative px-3 py-2 rounded-md text-sm font-medium ${
+                    activeItem === item.label
+                      ? 'text-accent-primary dark:text-accent-primary-dark bg-accent-primary/10 dark:bg-accent-primary-dark/10'
+                      : 'text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark hover:bg-bg-subtle dark:hover:bg-bg-subtle-dark'
+                  } transition-colors`}
+                  onClick={() => setActiveItem(item.label)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                    {item.badge && (
+                      <span className="absolute -top-1 -right-1 h-4 w-4 text-xs flex items-center justify-center bg-accent-primary text-white rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              )}
             ))}
           </div>
 
@@ -121,10 +151,13 @@ export default function Navigation() {
       >
         <div className="px-2 pt-2 pb-3 space-y-1">
           {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
+            {item.href.startsWith('http') ? (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
                 activeItem === item.label
                   ? 'text-accent-primary bg-accent-primary/10'
                   : 'text-text-secondary hover:text-text-primary hover:bg-bg-subtle'
@@ -150,6 +183,6 @@ export default function Navigation() {
           </button>
         </div>
       </motion.div>
-    </nav>
+    </div>
   )
 }
