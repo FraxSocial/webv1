@@ -7,6 +7,7 @@
 * [Installation](getting-started/installation.md)
 
 ## Features
+* [Key Features](features/key-features.md)
 * [Governance](features/governance.md)
   * [Proposals](features/governance/proposals.md)
   * [Voting](features/governance/voting.md)
