@@ -1,4 +1,46 @@
-# Key Features
+# Key Features of Frax Social
+
+## 🏛️ Governance Dashboard
+
+- **Proposal Creation**: Create and submit governance proposals directly through the interface
+- **Voting**: Cast your votes on active proposals with a simple click
+- **Delegation**: Delegate your voting power to trusted community members
+- **Real-time Stats**: Track proposal status, voting power, and community metrics
+
+## 📚 Learning Hub
+
+- **Educational Content**: Access comprehensive guides about Frax Protocol
+- **Language Options**: Switch between English and Spanish translations
+- **Interactive Learning**: Engage with step-by-step tutorials and guides
+- **Progress Tracking**: Monitor your learning journey
+
+## 🎨 User Experience
+
+- **Dark/Light Mode**: Choose your preferred theme
+- **Mobile Responsive**: Access from any device
+- **Wallet Integration**: Connect your Web3 wallet seamlessly
+- **Intuitive Navigation**: Easy-to-use interface with clear sections
+
+## 🔗 Web3 Integration
+
+- **Secure Authentication**: Connect with popular Web3 wallets
+- **Transaction Signing**: Sign proposals and votes securely
+- **Network Support**: Compatible with multiple networks
+- **Gas Optimization**: Efficient transaction handling
+
+## 🛠️ Technical Features
+
+- **Fast Loading**: Optimized performance with Next.js
+- **Real-time Updates**: Live data synchronization
+- **Secure API**: Protected endpoints for data access
+- **Modular Design**: Easy to maintain and extend
+
+## 🤝 Integration Features
+
+- **Social Links**: Quick access to Twitter, Discord, and GitHub
+- **Documentation**: Comprehensive GitBook documentation
+- **Analytics**: Integration with Frax analytics platform
+- **Community Forum**: Direct link to Frax community discussions
 
 ## Core Features
 
