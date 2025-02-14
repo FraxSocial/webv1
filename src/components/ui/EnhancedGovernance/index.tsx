@@ -82,7 +82,7 @@ interface DelegateProfile extends DelegateInfo {
   }[]
 }
 
-import Header from './Header'
+import HeaderGovernance from './HeaderGovernance'
 
 export default function EnhancedGovernance() {
   const [mounted, setMounted] = useState(false)
@@ -108,7 +108,7 @@ export default function EnhancedGovernance() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a]">
-      <Header />
+      <HeaderGovernance />
       <main className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
         <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
           <div className="border-b border-gray-200 dark:border-gray-800/60 mb-6">

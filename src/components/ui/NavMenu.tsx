@@ -14,19 +14,18 @@ const WalletConnectButton = dynamic(
 )
 
 const navItems = [
-  { label: 'Home', href: '/home' },
+  { label: 'Home', href: '/' },
   { label: 'Governance', href: '/governance' },
   { label: 'Learn', href: '/learn' },
-  { label: 'Analytics', href: '/analytics' }
+  { label: 'Analytics', href: 'https://facts.frax.finance/', external: true }
 ]
 
 export default function NavMenu() {
   const { isConnected } = useAccount()
-  const [unreadMessages, setUnreadMessages] = useState(2) // Example unread count
+  const [unreadMessages, setUnreadMessages] = useState(2)
   const [showMessages, setShowMessages] = useState(false)
   const [mounted, setMounted] = useState(false)
 
-  // Only show the menu after mounting to prevent hydration mismatch
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -37,7 +36,6 @@ export default function NavMenu() {
 
   return (
     <div>
-      {/* Messages Window */}
       {showMessages && <DirectMessaging onClose={() => setShowMessages(false)} />}
       
       <nav className="fixed right-8 top-8 z-50">
@@ -46,41 +44,51 @@ export default function NavMenu() {
                       bg-bg-card-light/80 dark:bg-bg-card/80 p-1 backdrop-blur-sm">
           {isConnected ? (
             <>
-              {/* Navigation Links */}
               <div className="flex items-center space-x-1">
-                {navItems.map((item, i) => (
-                  <Link
-                    key={i}
-                    href={item.href}
-                    className="group relative rounded-full px-4 py-2 text-sm font-medium
-                             text-text-secondary-light dark:text-text-secondary
-                             hover:text-text-primary-light dark:hover:text-text-primary
-                             transition-colors duration-300"
-                  >
-                    {/* Hover effect */}
-                    <span className="absolute inset-0 rounded-full bg-accent-primary/0 transition-colors 
-                                 duration-300 group-hover:bg-accent-primary/5" />
-                    
-                    {/* Text */}
-                    <span className="relative">{item.label}</span>
-                  </Link>
-                ))}
+                {navItems.map((item, i) => 
+                  item.external ? (
+                    <a
+                      key={i}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative rounded-full px-4 py-2 text-sm font-medium
+                               text-text-secondary-light dark:text-text-secondary
+                               hover:text-text-primary-light dark:hover:text-text-primary
+                               transition-colors duration-300"
+                    >
+                      <span className="absolute inset-0 rounded-full bg-accent-primary/0 transition-colors 
+                                   duration-300 group-hover:bg-accent-primary/5" />
+                      <span className="relative">{item.label}</span>
+                    </a>
+                  ) : (
+                    <Link
+                      key={i}
+                      href={item.href}
+                      className="group relative rounded-full px-4 py-2 text-sm font-medium
+                               text-text-secondary-light dark:text-text-secondary
+                               hover:text-text-primary-light dark:hover:text-text-primary
+                               transition-colors duration-300"
+                    >
+                      <span className="absolute inset-0 rounded-full bg-accent-primary/0 transition-colors 
+                                   duration-300 group-hover:bg-accent-primary/5" />
+                      <span className="relative">{item.label}</span>
+                    </Link>
+                  )
+                )}
               </div>
 
-              {/* Divider */}
               <div className="h-6 w-px mx-1 bg-border-subtle-light dark:bg-border-subtle" />
 
-              {/* Notifications */}
               <NotificationsPanel />
 
-              {/* Messages Link */}
               <button
                 onClick={() => setShowMessages(!showMessages)}
                 className="relative px-3 py-2 rounded-lg transition-colors
                            text-text-secondary-light hover:text-text-primary-light hover:bg-bg-hover-light
                            dark:text-text-secondary dark:hover:text-text-primary dark:hover:bg-bg-hover"
               >
-                Messages
+                <MessageCircle className="h-5 w-5" />
                 {unreadMessages > 0 && (
                   <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent-primary text-xs font-medium text-white animate-pulse">
                     {unreadMessages}
@@ -90,7 +98,6 @@ export default function NavMenu() {
             </>
           ) : null}
 
-          {/* Connect button */}
           <WalletConnectButton />
         </div>
       </nav>

@@ -49,6 +49,7 @@ module.exports = {
         'slide-up': 'slide-up 0.5s ease-out',
         'slide-down': 'slide-down 0.5s ease-out',
         'fade-in': 'fade-in 0.5s ease-out',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'scale': 'scale 0.3s ease-out',
         'float': 'float 20s ease-in-out infinite',
         'spin-slow': 'spin 60s linear infinite',
@@ -57,6 +58,10 @@ module.exports = {
         'carousel-slide': 'slide-left 20s linear infinite',
       },
       keyframes: {
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
+        },
         'ticker': {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' }
