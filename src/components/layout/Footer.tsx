@@ -40,7 +40,7 @@ const Footer = () => {
                 <MessageCircle className="h-6 w-6" />
               </a>
               <a
-                href="https://github.com/FraxFinance"
+                href="https://github.com/FraxSocial/webv1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-text-secondary transition-colors duration-300 hover:text-accent-primary"
