@@ -58,13 +58,13 @@ export default function Home() {
   useEffect(() => {
     if (isConnected) {
       const hasProfile = localStorage.getItem('userProfile')
-      if (hasProfile) {
+      if (hasProfile && window.location.pathname === '/') {
         router.push('/home')
-      } else {
+      } else if (!hasProfile && !isSignUpOpen) {
         setIsSignUpOpen(true)
       }
     }
-  }, [isConnected, router])
+  }, [isConnected, router, isSignUpOpen])
 
   // Reset modal state when disconnected
   useEffect(() => {

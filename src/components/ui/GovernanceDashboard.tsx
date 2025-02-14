@@ -1,32 +1,70 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { PieChart, BarChart, Activity, Users, ThumbsUp, ThumbsDown } from 'lucide-react'
+import { Shield, Rocket, Activity, Users, ThumbsUp, ThumbsDown, Clock, AlertCircle } from 'lucide-react'
+import { Tab } from '@headlessui/react'
+import { motion } from 'framer-motion'
 
-interface Proposal {
+interface BaseProposal {
   id: string
   title: string
   description: string
-  status: 'active' | 'passed' | 'failed' | 'pending'
+  status: 'active' | 'passed' | 'failed' | 'pending' | 'vetoed'
   votesFor: number
   votesAgainst: number
   quorum: number
   endTime: Date
   creator: string
+  executionTime?: Date
+  type: 'alpha' | 'omega'
 }
+
+interface AlphaProposal extends BaseProposal {
+  type: 'alpha'
+  proposalThreshold: number
+  votingDelay: number
+  votingPeriod: number
+}
+
+interface OmegaProposal extends BaseProposal {
+  type: 'omega'
+  vetoThreshold: number
+  timelock: number
+  isOptimistic: boolean
+}
+
+type Proposal = AlphaProposal | OmegaProposal
 
 interface DelegateInfo {
   address: string
   name: string
   votingPower: number
   proposalsVoted: number
+  delegatedAmount: number
+  delegators: number
+  isTeamMember?: boolean
+}
+
+interface UserStats {
+  votingPower: number
+  delegatedPower: number
+  proposalsParticipated: number
+  totalProposals: number
+  currentDelegate?: string
+  isDelegate: boolean
 }
 
 export default function GovernanceDashboard() {
+  const [selectedTab, setSelectedTab] = useState(0)
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [topDelegates, setTopDelegates] = useState<DelegateInfo[]>([])
-  const [userVotingPower, setUserVotingPower] = useState(0)
-  const [votingHistory, setVotingHistory] = useState({ participated: 0, total: 0 })
+  const [userStats, setUserStats] = useState<UserStats>({
+    votingPower: 0,
+    delegatedPower: 0,
+    proposalsParticipated: 0,
+    totalProposals: 0,
+    isDelegate: false
+  })
 
   useEffect(() => {
     // Mock data
@@ -39,19 +77,27 @@ export default function GovernanceDashboard() {
         votesFor: 750000,
         votesAgainst: 250000,
         quorum: 1000000,
-        endTime: new Date(Date.now() + 86400000 * 3), // 3 days from now
-        creator: 'frax.eth'
+        endTime: new Date(Date.now() + 86400000 * 3),
+        creator: 'frax.eth',
+        type: 'alpha',
+        proposalThreshold: 100000,
+        votingDelay: 1,
+        votingPeriod: 7
       },
       {
         id: '2',
-        title: 'FIP-90: Add new AMO',
-        description: 'Add Curve V2 pool as a new algorithmic market operations controller',
-        status: 'passed',
-        votesFor: 1200000,
-        votesAgainst: 300000,
-        quorum: 1000000,
-        endTime: new Date(Date.now() - 86400000), // 1 day ago
-        creator: 'fraxgov.eth'
+        title: 'FIP-90: Deploy Frax on Optimism',
+        description: 'Team proposal to deploy Frax protocol on Optimism L2',
+        status: 'active',
+        votesFor: 200000,
+        votesAgainst: 50000,
+        quorum: 500000,
+        endTime: new Date(Date.now() + 86400000 * 5),
+        creator: 'fraxteam.eth',
+        type: 'omega',
+        vetoThreshold: 400000,
+        timelock: 2,
+        isOptimistic: true
       }
     ]
     setProposals(mockProposals)
@@ -61,176 +107,330 @@ export default function GovernanceDashboard() {
         address: '0x1234...5678',
         name: 'FraxWhale.eth',
         votingPower: 2500000,
-        proposalsVoted: 45
+        proposalsVoted: 45,
+        delegatedAmount: 1500000,
+        delegators: 120
       },
       {
         address: '0x8765...4321',
-        name: 'FraxGov.eth',
+        name: 'FraxTeam.eth',
         votingPower: 1800000,
-        proposalsVoted: 38
+        proposalsVoted: 38,
+        delegatedAmount: 1000000,
+        delegators: 85,
+        isTeamMember: true
       }
     ]
     setTopDelegates(mockDelegates)
 
-    setUserVotingPower(50000)
-    setVotingHistory({ participated: 15, total: 20 })
+    setUserStats({
+      votingPower: 50000,
+      delegatedPower: 10000,
+      proposalsParticipated: 15,
+      totalProposals: 20,
+      currentDelegate: 'FraxWhale.eth',
+      isDelegate: false
+    })
   }, [])
 
   return (
-    <div className="space-y-6">
-      {/* User Stats */}
-      <div className="grid grid-cols-4 gap-4">
-        <div className="rounded-lg p-4
-                    border border-border-subtle-light dark:border-border-subtle
-                    bg-bg-card-light dark:bg-bg-card">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-text-secondary-light dark:text-text-secondary">
-              Voting Power
-            </h3>
-            <Activity className="h-5 w-5 text-accent-primary" />
-          </div>
-          <p className="mt-2 text-2xl font-bold text-text-primary-light dark:text-text-primary">
-            {userVotingPower.toLocaleString()}
-          </p>
+    <div className="space-y-6 p-4">
+      <Tab.Group selectedIndex={selectedTab} onChange={setSelectedTab}>
+        {/* Header with Tabs */}
+        <div className="border-b border-border-subtle">
+          <Tab.List className="flex space-x-8">
+            <Tab className={({ selected }) =>
+              `pb-4 text-sm font-medium outline-none ${
+                selected 
+                  ? 'border-b-2 border-accent-primary text-text-primary' 
+                  : 'text-text-secondary hover:text-text-primary'
+              }`
+            }>
+              Overview
+            </Tab>
+            <Tab className={({ selected }) =>
+              `pb-4 text-sm font-medium outline-none ${
+                selected 
+                  ? 'border-b-2 border-accent-primary text-text-primary' 
+                  : 'text-text-secondary hover:text-text-primary'
+              }`
+            }>
+              Proposals
+            </Tab>
+            <Tab className={({ selected }) =>
+              `pb-4 text-sm font-medium outline-none ${
+                selected 
+                  ? 'border-b-2 border-accent-primary text-text-primary' 
+                  : 'text-text-secondary hover:text-text-primary'
+              }`
+            }>
+              Delegates
+            </Tab>
+          </Tab.List>
         </div>
-        <div className="rounded-lg p-4
-                    border border-border-subtle-light dark:border-border-subtle
-                    bg-bg-card-light dark:bg-bg-card">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-text-secondary-light dark:text-text-secondary">
-              Participation Rate
-            </h3>
-            <PieChart className="h-5 w-5 text-accent-primary" />
-          </div>
-          <p className="mt-2 text-2xl font-bold text-text-primary-light dark:text-text-primary">
-            {Math.round((votingHistory.participated / votingHistory.total) * 100)}%
-          </p>
-        </div>
-        <div className="rounded-lg p-4
-                    border border-border-subtle-light dark:border-border-subtle
-                    bg-bg-card-light dark:bg-bg-card">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-text-secondary-light dark:text-text-secondary">
-              Active Proposals
-            </h3>
-            <BarChart className="h-5 w-5 text-accent-primary" />
-          </div>
-          <p className="mt-2 text-2xl font-bold text-text-primary-light dark:text-text-primary">
-            {proposals.filter(p => p.status === 'active').length}
-          </p>
-        </div>
-        <div className="rounded-lg p-4
-                    border border-border-subtle-light dark:border-border-subtle
-                    bg-bg-card-light dark:bg-bg-card">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-text-secondary-light dark:text-text-secondary">
-              Top Delegates
-            </h3>
-            <Users className="h-5 w-5 text-accent-primary" />
-          </div>
-          <p className="mt-2 text-2xl font-bold text-text-primary-light dark:text-text-primary">
-            {topDelegates.length}
-          </p>
-        </div>
-      </div>
 
-      {/* Active Proposals */}
-      <div className="rounded-lg
-                   border border-border-subtle-light dark:border-border-subtle
-                   bg-bg-card-light dark:bg-bg-card">
-        <div className="p-4 border-b border-border-subtle-light dark:border-border-subtle">
-          <h2 className="text-lg font-semibold text-text-primary-light dark:text-text-primary">
-            Active Proposals
-          </h2>
-        </div>
-        <div className="divide-y divide-border-subtle-light dark:divide-border-subtle">
-          {proposals.map(proposal => (
-            <div key={proposal.id} className="p-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-medium text-text-primary-light dark:text-text-primary">
-                    {proposal.title}
+      <Tab.Panels>
+        <Tab.Panel>
+          {/* Overview Panel */}
+          <div className="space-y-6">
+            {/* User Stats */}
+            <div className="grid grid-cols-4 gap-4">
+              <div className="rounded-lg p-4 border border-border-subtle bg-bg-card">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-text-secondary">
+                    Total Voting Power
                   </h3>
-                  <p className="mt-1 text-sm text-text-secondary-light dark:text-text-secondary">
-                    {proposal.description}
+                  <Activity className="h-5 w-5 text-accent-primary" />
+                </div>
+                <p className="mt-2 text-2xl font-bold text-text-primary">
+                  {userStats.votingPower.toLocaleString()} veFXS
+                </p>
+                {userStats.currentDelegate && (
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Delegated to: {userStats.currentDelegate}
                   </p>
-                  <div className="mt-2 flex items-center space-x-4 text-sm">
-                    <span className="text-text-tertiary-light dark:text-text-tertiary">
-                      By {proposal.creator}
-                    </span>
-                    <span className="text-text-tertiary-light dark:text-text-tertiary">
-                      Ends {new Date(proposal.endTime).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="text-right">
-                    <div className="flex items-center space-x-1">
-                      <ThumbsUp className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-text-secondary-light dark:text-text-secondary">
-                        {proposal.votesFor.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <ThumbsDown className="h-4 w-4 text-red-400" />
-                      <span className="text-sm text-text-secondary-light dark:text-text-secondary">
-                        {proposal.votesAgainst.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-                  <button className="rounded-lg px-4 py-2 text-sm font-medium text-white
-                                   bg-accent-primary hover:bg-accent-muted-light dark:hover:bg-accent-muted">
-                    Vote
-                  </button>
-                </div>
+                )}
               </div>
-              {/* Progress bar */}
-              <div className="mt-4 h-2 w-full rounded-full
-                           bg-bg-hover-light dark:bg-bg-darker">
-                <div
-                  className="h-full rounded-full bg-accent-primary"
-                  style={{
-                    width: `${(proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100}%`
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Top Delegates */}
-      <div className="rounded-lg
-                   border border-border-subtle-light dark:border-border-subtle
-                   bg-bg-card-light dark:bg-bg-card">
-        <div className="p-4 border-b border-border-subtle-light dark:border-border-subtle">
-          <h2 className="text-lg font-semibold text-text-primary-light dark:text-text-primary">
-            Top Delegates
-          </h2>
-        </div>
-        <div className="divide-y divide-border-subtle-light dark:divide-border-subtle">
-          {topDelegates.map(delegate => (
-            <div key={delegate.address} className="flex items-center justify-between p-4">
-              <div>
-                <h3 className="font-medium text-text-primary-light dark:text-text-primary">
-                  {delegate.name}
-                </h3>
-                <p className="text-sm text-text-secondary-light dark:text-text-secondary">
-                  {delegate.address}
+              <div className="rounded-lg p-4 border border-border-subtle bg-bg-card">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-text-secondary">
+                    Delegated Power
+                  </h3>
+                  <Users className="h-5 w-5 text-accent-primary" />
+                </div>
+                <p className="mt-2 text-2xl font-bold text-text-primary">
+                  {userStats.delegatedPower.toLocaleString()} veFXS
+                </p>
+                <p className="mt-1 text-sm text-text-secondary">
+                  {userStats.isDelegate ? `From ${userStats.delegators || 0} delegators` : 'Not a delegate'}
                 </p>
               </div>
-              <div className="text-right">
-                <div className="text-sm font-medium text-text-primary-light dark:text-text-primary">
-                  {delegate.votingPower.toLocaleString()} VP
+
+              <div className="rounded-lg p-4 border border-border-subtle bg-bg-card">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-text-secondary">
+                    Participation Rate
+                  </h3>
+                  <ThumbsUp className="h-5 w-5 text-accent-primary" />
                 </div>
-                <div className="text-sm text-text-secondary-light dark:text-text-secondary">
-                  {delegate.proposalsVoted} proposals voted
+                <p className="mt-2 text-2xl font-bold text-text-primary">
+                  {Math.round((userStats.proposalsParticipated / userStats.totalProposals) * 100)}%
+                </p>
+                <p className="mt-1 text-sm text-text-secondary">
+                  {userStats.proposalsParticipated} of {userStats.totalProposals} proposals
+                </p>
+              </div>
+
+              <div className="rounded-lg p-4 border border-border-subtle bg-bg-card">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-text-secondary">
+                    Active Proposals
+                  </h3>
+                  <AlertCircle className="h-5 w-5 text-accent-primary" />
+                </div>
+                <p className="mt-2 text-2xl font-bold text-text-primary">
+                  {proposals.filter(p => p.status === 'active').length}
+                </p>
+                <p className="mt-1 text-sm text-text-secondary">
+                  Requires your attention
+                </p>
+              </div>
+            </div>
+
+            {/* Governance Overview */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-lg p-6 border border-border-subtle bg-bg-card">
+                <div className="flex items-center space-x-3 mb-4">
+                  <Shield className="h-6 w-6 text-accent-primary" />
+                  <h3 className="text-lg font-semibold text-text-primary">FraxGovernorAlpha</h3>
+                </div>
+                <p className="text-sm text-text-secondary mb-4">
+                  High-security governance for critical protocol changes. Requires high quorum and careful deliberation.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Proposal Threshold</span>
+                    <span className="text-text-primary">100,000 veFXS</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Voting Delay</span>
+                    <span className="text-text-primary">1 day</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Voting Period</span>
+                    <span className="text-text-primary">7 days</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg p-6 border border-border-subtle bg-bg-card">
+                <div className="flex items-center space-x-3 mb-4">
+                  <Rocket className="h-6 w-6 text-accent-primary" />
+                  <h3 className="text-lg font-semibold text-text-primary">FraxGovernorOmega</h3>
+                </div>
+                <p className="text-sm text-text-secondary mb-4">
+                  Optimistic governance for team operations. Proposals pass by default unless vetoed by the community.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Veto Threshold</span>
+                    <span className="text-text-primary">400,000 veFXS</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Timelock</span>
+                    <span className="text-text-primary">2 days</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Type</span>
+                    <span className="text-text-primary">Optimistic</span>
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </Tab.Panel>
+
+        <Tab.Panel>
+          {/* Proposals Panel */}
+          <div className="space-y-4">
+            {proposals.map((proposal) => (
+              <motion.div
+                key={proposal.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-lg p-6 border border-border-subtle bg-bg-card"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center space-x-3">
+                      {proposal.type === 'alpha' ? (
+                        <Shield className="h-5 w-5 text-accent-primary" />
+                      ) : (
+                        <Rocket className="h-5 w-5 text-accent-primary" />
+                      )}
+                      <h3 className="text-lg font-semibold text-text-primary">{proposal.title}</h3>
+                    </div>
+                    <p className="mt-2 text-sm text-text-secondary">{proposal.description}</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      proposal.status === 'active' ? 'bg-green-100 text-green-800' :
+                      proposal.status === 'passed' ? 'bg-blue-100 text-blue-800' :
+                      proposal.status === 'failed' ? 'bg-red-100 text-red-800' :
+                      proposal.status === 'vetoed' ? 'bg-purple-100 text-purple-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <div className="flex items-center space-x-1 text-text-secondary">
+                      <ThumbsUp className="h-4 w-4" />
+                      <span>For</span>
+                    </div>
+                    <p className="mt-1 font-medium text-text-primary">
+                      {proposal.votesFor.toLocaleString()} veFXS
+                    </p>
+                  </div>
+                  <div>
+                    <div className="flex items-center space-x-1 text-text-secondary">
+                      <ThumbsDown className="h-4 w-4" />
+                      <span>Against</span>
+                    </div>
+                    <p className="mt-1 font-medium text-text-primary">
+                      {proposal.votesAgainst.toLocaleString()} veFXS
+                    </p>
+                  </div>
+                  <div>
+                    <div className="flex items-center space-x-1 text-text-secondary">
+                      <Clock className="h-4 w-4" />
+                      <span>Time Remaining</span>
+                    </div>
+                    <p className="mt-1 font-medium text-text-primary">
+                      {Math.ceil((proposal.endTime.getTime() - Date.now()) / (1000 * 60 * 60 * 24))} days
+                    </p>
+                  </div>
+                </div>
+
+                {'proposalThreshold' in proposal && (
+                  <div className="mt-4 text-xs text-text-secondary">
+                    Requires {proposal.proposalThreshold.toLocaleString()} veFXS to propose
+                  </div>
+                )}
+                {'vetoThreshold' in proposal && (
+                  <div className="mt-4 text-xs text-text-secondary">
+                    Requires {proposal.vetoThreshold.toLocaleString()} veFXS to veto
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </Tab.Panel>
+
+        <Tab.Panel>
+          {/* Delegates Panel */}
+          <div className="space-y-4">
+            {topDelegates.map((delegate) => (
+              <motion.div
+                key={delegate.address}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-lg p-6 border border-border-subtle bg-bg-card"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center space-x-3">
+                      <h3 className="text-lg font-semibold text-text-primary">{delegate.name}</h3>
+                      {delegate.isTeamMember && (
+                        <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          Team Member
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-sm text-text-secondary">{delegate.address}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-4 gap-4 text-sm">
+                  <div>
+                    <div className="text-text-secondary">Voting Power</div>
+                    <p className="mt-1 font-medium text-text-primary">
+                      {delegate.votingPower.toLocaleString()} veFXS
+                    </p>
+                  </div>
+                  <div>
+                    <div className="text-text-secondary">Delegated Amount</div>
+                    <p className="mt-1 font-medium text-text-primary">
+                      {delegate.delegatedAmount.toLocaleString()} veFXS
+                    </p>
+                  </div>
+                  <div>
+                    <div className="text-text-secondary">Delegators</div>
+                    <p className="mt-1 font-medium text-text-primary">
+                      {delegate.delegators}
+                    </p>
+                  </div>
+                  <div>
+                    <div className="text-text-secondary">Proposals Voted</div>
+                    <p className="mt-1 font-medium text-text-primary">
+                      {delegate.proposalsVoted}
+                    </p>
+                  </div>
+                </div>
+
+                <button className="mt-4 px-4 py-2 text-sm font-medium text-white bg-accent-primary rounded-lg hover:bg-accent-primary-dark transition-colors">
+                  Delegate veFXS
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </Tab.Panel>
+      </Tab.Panels>
+      </Tab.Group>
     </div>
   )
 }
