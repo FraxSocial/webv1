@@ -194,15 +194,17 @@ export default function Home() {
                               group-hover:opacity-100" />
               </button>
               
-              <Link
-                href="/docs"
+              <a
+                href="https://docs.fraxsocial.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-lg border border-border-subtle bg-bg-card px-8 py-3 
                          text-sm font-medium text-text-secondary shadow-subtle transition-all 
                          duration-300 hover:-translate-y-1 hover:border-accent-primary 
                          hover:text-text-primary hover:shadow-accent"
               >
                 Documentation
-              </Link>
+              </a>
             </div>
           </div>
         </div>

@@ -17,7 +17,8 @@ const navItems = [
   { label: 'Home', href: '/' },
   { label: 'Governance', href: '/governance' },
   { label: 'Learn', href: '/learn' },
-  { label: 'Analytics', href: 'https://facts.frax.finance/', external: true }
+  { label: 'Analytics', href: 'https://facts.frax.finance/', external: true },
+  { label: 'Docs', href: 'https://docs.fraxsocial.com', external: true }
 ]
 
 export default function NavMenu() {
