@@ -59,7 +59,7 @@ const Footer = () => {
               <ul className="mt-4 space-y-4">
                 <li>
                   <a
-                    href="https://erosnolasco.gitbook.io/https-docs.fraxsocial.com"
+                    href="https://docs.fx.social.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-text-secondary transition-colors duration-300 hover:text-accent-primary"

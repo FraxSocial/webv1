@@ -196,7 +196,7 @@ export default function Home() {
               </button>
               
               <a
-                href="https://erosnolasco.gitbook.io/https-docs.fraxsocial.com"
+                href="https://docs.fx.social.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-lg border border-border-subtle bg-bg-card px-8 py-3 
