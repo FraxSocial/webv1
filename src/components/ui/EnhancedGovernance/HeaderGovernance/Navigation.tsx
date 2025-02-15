@@ -40,7 +40,7 @@ const Navigation = () => {
     },
     {
       label: 'Community',
-      href: '/community',
+      href: '/governance/forum',
       icon: Users
     },
     {
