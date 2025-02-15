@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, ArrowLeft } from 'lucide-react'
 import ForumPost from '@/components/ui/EnhancedGovernance/Forum/ForumPost'
 import ForumFilters from '@/components/ui/EnhancedGovernance/Forum/ForumFilters'
 import { ForumFilter, ForumPost as ForumPostType } from '@/types/forum'
@@ -63,6 +63,13 @@ export default function ForumPage() {
 
   return (
     <div className="container mx-auto max-w-5xl px-4 py-8">
+      <Link
+        href="/governance"
+        className="mb-6 flex items-center text-text-secondary transition-colors duration-300 hover:text-accent-primary"
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back to Governance
+      </Link>
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold text-text-primary">
           International Forum
