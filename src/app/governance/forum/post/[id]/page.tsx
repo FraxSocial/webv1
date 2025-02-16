@@ -43,12 +43,14 @@ const mockComments: ForumComment[] = [
   },
 ]
 
-export default function PostPage({
-  params,
-}: {
+type Props = {
   params: { id: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
-}) {
+}
+
+export default async function PostPage({ params }: Props) {
   // TODO: Fetch post and comments from API
-  return <ForumPostDetail post={mockPost} initialComments={mockComments} />
+  const post = mockPost
+  const comments = mockComments
+
+  return <ForumPostDetail post={post} initialComments={comments} />
 }
