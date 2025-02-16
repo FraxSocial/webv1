@@ -57,6 +57,15 @@ interface DelegateVote {
   timestamp: Date
 }
 
+interface DelegateInfo {
+  id: string
+  name: string
+  address: string
+  delegatedVotes: number
+  bio?: string
+  profileImage?: string
+}
+
 interface DelegateProfile extends DelegateInfo {
   expertise: string[]
   votingHistory: {
