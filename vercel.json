@@ -9,7 +9,7 @@
         "buildCommand": "npm run build",
         "devCommand": "npm run dev",
         "installCommand": "npm install",
-        "nodeVersion": "18.x"
+        "nodeVersion": "22.x"
       }
     }
   ],
