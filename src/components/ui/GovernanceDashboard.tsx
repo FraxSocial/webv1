@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { Shield, Rocket, Activity, Users, ThumbsUp, ThumbsDown, Clock, AlertCircle } from 'lucide-react'
 import { Tab } from '@headlessui/react'
 import { motion } from 'framer-motion'
+import DelegatesTab from '@/components/governance/DelegatesTab'
+import DelegatesList from '@/components/governance/DelegatesList'
 
 interface BaseProposal {
   id: string
@@ -35,15 +37,7 @@ interface OmegaProposal extends BaseProposal {
 
 type Proposal = AlphaProposal | OmegaProposal
 
-interface DelegateInfo {
-  address: string
-  name: string
-  votingPower: number
-  proposalsVoted: number
-  delegatedAmount: number
-  delegators: number
-  isTeamMember?: boolean
-}
+
 
 interface UserStats {
   votingPower: number
@@ -57,7 +51,7 @@ interface UserStats {
 export default function GovernanceDashboard() {
   const [selectedTab, setSelectedTab] = useState(0)
   const [proposals, setProposals] = useState<Proposal[]>([])
-  const [topDelegates, setTopDelegates] = useState<DelegateInfo[]>([])
+
   const [userStats, setUserStats] = useState<UserStats>({
     votingPower: 0,
     delegatedPower: 0,
@@ -373,61 +367,7 @@ export default function GovernanceDashboard() {
 
         <Tab.Panel>
           {/* Delegates Panel */}
-          <div className="space-y-4">
-            {topDelegates.map((delegate) => (
-              <motion.div
-                key={delegate.address}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg p-6 border border-border-subtle bg-bg-card"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="flex items-center space-x-3">
-                      <h3 className="text-lg font-semibold text-text-primary">{delegate.name}</h3>
-                      {delegate.isTeamMember && (
-                        <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          Team Member
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-1 text-sm text-text-secondary">{delegate.address}</p>
-                  </div>
-                </div>
-
-                <div className="mt-4 grid grid-cols-4 gap-4 text-sm">
-                  <div>
-                    <div className="text-text-secondary">Voting Power</div>
-                    <p className="mt-1 font-medium text-text-primary">
-                      {delegate.votingPower.toLocaleString()} veFXS
-                    </p>
-                  </div>
-                  <div>
-                    <div className="text-text-secondary">Delegated Amount</div>
-                    <p className="mt-1 font-medium text-text-primary">
-                      {delegate.delegatedAmount.toLocaleString()} veFXS
-                    </p>
-                  </div>
-                  <div>
-                    <div className="text-text-secondary">Delegators</div>
-                    <p className="mt-1 font-medium text-text-primary">
-                      {delegate.delegators}
-                    </p>
-                  </div>
-                  <div>
-                    <div className="text-text-secondary">Proposals Voted</div>
-                    <p className="mt-1 font-medium text-text-primary">
-                      {delegate.proposalsVoted}
-                    </p>
-                  </div>
-                </div>
-
-                <button className="mt-4 px-4 py-2 text-sm font-medium text-white bg-accent-primary rounded-lg hover:bg-accent-primary-dark transition-colors">
-                  Delegate veFXS
-                </button>
-              </motion.div>
-            ))}
-          </div>
+          <DelegatesTab />
         </Tab.Panel>
       </Tab.Panels>
       </Tab.Group>

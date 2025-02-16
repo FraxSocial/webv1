@@ -10,6 +10,7 @@ import SparklineChart from '@/components/ui/SparklineChart'
 import NavMenu from '@/components/ui/NavMenu'
 import SignUpModal from '@/components/ui/SignUpModal'
 import Footer from '@/components/layout/Footer'
+import FraxIcon from '@/components/ui/FraxIcon'
 
 const features = [
   {
@@ -122,7 +123,7 @@ export default function Home() {
             <div className="animate-slide-down inline-flex items-center space-x-2 rounded-full 
                           border border-border-subtle bg-bg-card px-4 py-1.5 shadow-subtle">
               <span className="text-sm text-text-secondary">Powered by</span>
-              <span className="text-sm font-medium text-accent-primary">Frax Protocol</span>
+              <span className="text-sm font-medium text-accent-primary">fraxtal</span>
             </div>
 
             {/* Main heading */}

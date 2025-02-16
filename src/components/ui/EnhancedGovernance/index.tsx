@@ -9,6 +9,7 @@ import ProposalCard from './ProposalCard'
 import VotingPowerCard from './VotingPowerCard'
 import CommunityMetrics from './CommunityMetrics'
 import TrendingDiscussions from './TrendingDiscussions'
+import DelegateDiscovery from '@/components/governance/DelegateDiscovery'
 
 interface BaseProposal {
   id: string
@@ -180,9 +181,7 @@ export default function EnhancedGovernance() {
           </Tab.Panel>
           <Tab.Panel>
             {/* Delegate Discovery Panel */}
-            <div className="space-y-6">
-              <DelegateCard />
-            </div>
+            <DelegateDiscovery />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
