@@ -1,16 +1,21 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
   "framework": "nextjs",
   "builds": [
     {
-      "src": "next.config.js",
-      "use": "@vercel/next"
+      "src": "package.json",
+      "use": "@vercel/next",
+      "config": {
+        "buildCommand": "npm run build",
+        "devCommand": "npm run dev",
+        "installCommand": "npm install",
+        "nodeVersion": "18.x"
+      }
     }
   ],
   "env": {
-    "NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID": "WILL_BE_SET_BY_VERCEL"
+    "NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID": "WILL_BE_SET_BY_VERCEL",
+    "NODE_ENV": "production",
+    "NODE_OPTIONS": "--max_old_space_size=4096"
   }
 }
